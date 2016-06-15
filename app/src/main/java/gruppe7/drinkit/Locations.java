@@ -33,7 +33,7 @@ import android.widget.TextView;
  * Created by Frederik on 14-06-2016.
  */
 public class Locations extends Activity {
-
+/*
     LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     String locationProvider = LocationManager.NETWORK_PROVIDER;
     Location[] places = new Location[50];
@@ -85,6 +85,6 @@ public class Locations extends Activity {
         }
     }
 
-
+*/
 }
 

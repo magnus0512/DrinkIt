@@ -17,8 +17,8 @@ import gruppe7.drinkit.R;
 public class MainActivity extends AppCompatActivity {
     final private static String APP_TITLE = "DTU DrinkIt";
 
-    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-    String locationProvider = LocationManager.NETWORK_PROVIDER;
+    //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+    //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
 
     @Override
