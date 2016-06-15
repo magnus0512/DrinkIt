@@ -33,7 +33,7 @@ public class Locations extends Activity {
 
     LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     String locationProvider = LocationManager.NETWORK_PROVIDER;
-
+    Location[] places = new Location[50];
 
 
 
@@ -68,6 +68,12 @@ public class Locations extends Activity {
         }
     }
 
+    public void setup(){
+        Location Hegnet = new Location("Hegnet");
+        Hegnet.setLatitude(55.783144);
+        Hegnet.setLongitude(12.518172);
+        places[0] = Hegnet;
+    }
 
 }
 
