@@ -50,6 +50,7 @@ public class Settings extends Activity {
 
     public void addListenerOkButton() {
         OkButton = (Button) findViewById(R.id.OkButton);
+        OpenOnlyCheckBox = (CheckBox) findViewById(R.id.checkbox);
         SearchRadioGroup = (RadioGroup) findViewById(R.id.searchRadioGroup);
         SortRadioGroup = (RadioGroup) findViewById(R.id.sortRadioGroup);
 
@@ -70,10 +71,26 @@ public class Settings extends Activity {
                 result.append("\nID :").append(searchId + sortId);
                 Toast.makeText(Settings.this, result.toString(),
                         Toast.LENGTH_LONG).show();
+                if (OpenOnlyCheckBox.isChecked()) {
+
+                }
+                if (sortId == R.id.DistanceRadiobutton) {
+                    Toast.makeText(getApplicationContext(), "Distance",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Price",
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (searchId == R.id.BeerRadioButton) {
+                    Toast.makeText(getApplicationContext(), "Beer",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Coffee",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
     public void addListenerCancelButton() {
         CancelButton = (Button) findViewById(R.id.CancelButton);
         CancelButton.setOnClickListener(new View.OnClickListener() {
