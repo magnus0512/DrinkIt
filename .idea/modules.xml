@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DrinkIt.iml" filepath="$PROJECT_DIR$/DrinkIt.iml" />
       <module fileurl="file://$PROJECT_DIR$/DrinkIt.iml" filepath="$PROJECT_DIR$/DrinkIt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DrinkIt.iml" filepath="$PROJECT_DIR$/DrinkIt.iml" />
       <module fileurl="file://$PROJECT_DIR$/Magnus.iml" filepath="$PROJECT_DIR$/Magnus.iml" />
       <module fileurl="file://$PROJECT_DIR$/Softwareproject.iml" filepath="$PROJECT_DIR$/Softwareproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

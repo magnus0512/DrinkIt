@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/searchRadioGroup"
-        android:checkedButton="@+id/CoffeeRadiobutton">
+        android:checkedButton="@+id/CoffeeRadiobutton"
+        android:baselineAligned="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sortRadioGroup"
-        android:checkedButton="@+id/DistanceRadiobutton">>
+        android:checkedButton="@+id/DistanceRadiobutton"
+        android:baselineAligned="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:baselineAligned="false">
+        android:baselineAligned="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
