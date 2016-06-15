@@ -9,12 +9,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/searchRadioGroup"
         android:checkedButton="@+id/CoffeeRadiobutton">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/BeerTextView"
+            android:text="Beer"
+            />
         <RadioButton
             android:id="@+id/BeerRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="sendMessage"
             android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CoffeeTextView"
+            android:text="Coffee"
             />
         <RadioButton
             android:id="@+id/CoffeeRadiobutton"
@@ -32,11 +44,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/sortRadioGroup"
         android:checkedButton="@+id/DistanceRadiobutton">>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/DistanceTextView"
+            android:text="Distance"
+            />
         <RadioButton
             android:id="@+id/DistanceRadiobutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="sendMessage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/PriceTextView"
+            android:text="Price"
+            />
         <RadioButton
             android:id="@+id/PriceRadiobutton"
             android:layout_width="wrap_content"
@@ -44,13 +68,24 @@
             android:onClick="sendMessage" />
 
     </RadioGroup>
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="sendMessage"
-        android:checked="false"/>
-
+        android:layout_gravity="center_horizontal"
+        android:baselineAligned="false">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/OnlyOpenTextView"
+            android:text="Sort Only Open Locations" />
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage"
+            android:checked="false"/>
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
