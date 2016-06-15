@@ -24,7 +24,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by Frederik on 14-06-2016.
@@ -36,13 +39,27 @@ public class Locations extends Activity {
     Location[] places = new Location[50];
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
+        for (final TextView bar : ListView){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    bar.setText(afstandsberegner(bar.Location));
+                }
+            });
+        }
+    }
+
 
 
     public double afstandsberegner(Location newLocation) {
@@ -68,12 +85,6 @@ public class Locations extends Activity {
         }
     }
 
-    public void setup(){
-        Location Hegnet = new Location("Hegnet");
-        Hegnet.setLatitude(55.783144);
-        Hegnet.setLongitude(12.518172);
-        places[0] = Hegnet;
-    }
 
 }
 

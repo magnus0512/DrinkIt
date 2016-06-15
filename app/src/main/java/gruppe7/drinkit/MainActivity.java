@@ -1,6 +1,7 @@
 package gruppe7.drinkit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
 
 
 
