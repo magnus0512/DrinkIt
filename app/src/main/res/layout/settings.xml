@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchRadioGroup"
+        android:checkedButton="@+id/CoffeeRadiobutton">
+        <RadioButton
+            android:id="@+id/BeerRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage"
+            android:layout_alignParentLeft="true"
+            />
+        <RadioButton
+            android:id="@+id/CoffeeRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage"
+            android:layout_alignParentRight="true"
+            />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sortRadioGroup"
+        android:checkedButton="@+id/DistanceRadiobutton">>
+        <RadioButton
+            android:id="@+id/DistanceRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage" />
+        <RadioButton
+            android:id="@+id/PriceRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage" />
+
+    </RadioGroup>
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="sendMessage"
+        android:checked="false"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:baselineAligned="false">
+
+        <Button xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/OkButton"
+            android:text="Ok"
+            android:onClick="sendMessage"
+            android:layout_column="4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/CancelButton"
+            android:text="Cancel"
+            android:onClick="sendMessage"
+            android:layout_column="42"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>
