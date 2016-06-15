@@ -1,4 +1,4 @@
-package swprojekt.drinkit.testingtabs;
+package gruppe7.drinkit;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import gruppe7.drinkit.R;
 
 
 public class MainActivity extends AppCompatActivity {
