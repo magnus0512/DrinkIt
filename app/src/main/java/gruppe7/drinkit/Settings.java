@@ -41,7 +41,10 @@ public class Settings extends Activity {
                 //is OpenOnlyCheckBox checked?
                 if (((CheckBox) v).isChecked()) {
                     Toast.makeText(Settings.this,
-                            "REMOVED CLOSED", Toast.LENGTH_LONG).show();
+                            "REMOVED CLOSED PLACES", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(Settings.this,
+                            "ADDED CLOSED PLACES", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -53,6 +56,10 @@ public class Settings extends Activity {
         OpenOnlyCheckBox = (CheckBox) findViewById(R.id.checkbox);
         SearchRadioGroup = (RadioGroup) findViewById(R.id.searchRadioGroup);
         SortRadioGroup = (RadioGroup) findViewById(R.id.sortRadioGroup);
+        BeerSearchRadioButton = (RadioButton) findViewById(R.id.BeerRadiobutton);
+        CoffeeSearchRadioButton = (RadioButton) findViewById(R.id.CoffeeRadiobutton);
+        DistanceSortRadioButton = (RadioButton) findViewById(R.id.DistanceRadiobutton);
+        PriceSortRadioButton = (RadioButton) findViewById(R.id.PriceRadiobutton);
 
         OkButton.setOnClickListener(new View.OnClickListener() {
 
@@ -63,12 +70,12 @@ public class Settings extends Activity {
                 StringBuffer result = new StringBuffer();
                 int searchId = SearchRadioGroup.getCheckedRadioButtonId();
                 int sortId = SortRadioGroup.getCheckedRadioButtonId();
-                result.append("Only Open : ").append(OpenOnlyCheckBox.isChecked());
-                result.append("\nBeer : ").append(BeerSearchRadioButton.isChecked());
-                result.append("\nCoffee :").append(CoffeeSearchRadioButton.isChecked());
-                result.append("\nDistance :").append(DistanceSortRadioButton.isChecked());
-                result.append("\nPrice :").append(PriceSortRadioButton.isChecked());
-                result.append("\nID :").append(searchId + sortId);
+                //result.append("Only Open : ").append(OpenOnlyCheckBox.isChecked());
+               // result.append("\nBeer : ").append(BeerSearchRadioButton.isChecked());
+               // result.append("\nCoffee :").append(CoffeeSearchRadioButton.isChecked());
+              // result.append("\nDistance :").append(DistanceSortRadioButton.isChecked());
+               // result.append("\nPrice :").append(PriceSortRadioButton.isChecked());
+                //result.append("\nID :").append(searchId + sortId);
                 if (OpenOnlyCheckBox.isChecked()) {
                     result.append("\nOnly Open :").append("Current");
                 }else{

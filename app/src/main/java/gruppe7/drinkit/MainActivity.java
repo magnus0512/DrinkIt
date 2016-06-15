@@ -2,6 +2,7 @@ package gruppe7.drinkit;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            // TODO: Åben settings menu
-
+            Intent openSettings = new Intent(MainActivity.this, Settings.class);
+            MainActivity.this.startActivity(openSettings);
             return true;
         }
 
