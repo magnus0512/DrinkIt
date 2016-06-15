@@ -69,25 +69,26 @@ public class Settings extends Activity {
                 result.append("\nDistance :").append(DistanceSortRadioButton.isChecked());
                 result.append("\nPrice :").append(PriceSortRadioButton.isChecked());
                 result.append("\nID :").append(searchId + sortId);
-                Toast.makeText(Settings.this, result.toString(),
-                        Toast.LENGTH_LONG).show();
                 if (OpenOnlyCheckBox.isChecked()) {
-
+                    result.append("\nOnly Open :").append("Current");
+                }else{
+                    result.append("\nOnly Open :").append("Off");
                 }
                 if (sortId == R.id.DistanceRadiobutton) {
-                    Toast.makeText(getApplicationContext(), "Distance",
-                            Toast.LENGTH_SHORT).show();
+                    result.append("\nDistance :").append("Current");
                 } else {
-                    Toast.makeText(getApplicationContext(), "Price",
-                            Toast.LENGTH_SHORT).show();
+                    result.append("\nPrice :").append("Current");
+
                 }
                 if (searchId == R.id.BeerRadioButton) {
-                    Toast.makeText(getApplicationContext(), "Beer",
-                            Toast.LENGTH_SHORT).show();
+                    result.append("\nBeer :").append("Current");
+
                 } else {
-                    Toast.makeText(getApplicationContext(), "Coffee",
-                            Toast.LENGTH_SHORT).show();
+                    result.append("\nCoffee :").append("Current");
+
                 }
+                Toast.makeText(Settings.this, result.toString(),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
