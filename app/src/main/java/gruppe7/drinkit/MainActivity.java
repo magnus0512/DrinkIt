@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
     private boolean firstRun = true;
-    final private double[][] placeringer = { {55.782692, 12.521126} , //Hegnet
+    final private double[][] placeringer = {
+            { 55.782378, 12.517101} , //Hegnet
             { 55.782692, 12.521126} , //Diamanten
             { 55.783614, 12.517722} , //Studentercaféen 325
             { 55.786469, 12.525771} , //S-Huset / Kælderbaren / Kaffestuen
@@ -102,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+        new Distance().execute();
         beerFrag.barNames = barNames;
 
 
@@ -172,14 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }
-        new Distance().execute();
+
 
     }
 
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
         protected void onPostExecute() {
-            beerFrag.barNames = barNames;
+        //    beerFrag.barNames = barNames;
         }
     }
 
