@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                     barNames.set(i, nytBarNavn + "- " + afstand + " meter");
                 }
             }
+            /* Ekstra loop til kaffe stederne
             for (int i = 0 ; i < barNames.size(); i++){
                 int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
                 if (firstRun){
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                     String nytBarNavn = barNames.get(i).substring(0, index-1);
                     barNames.set(i, nytBarNavn + "- " + afstand + " meter");
                 }
-            }
+            } */
             firstRun = false;
             return null;
         }
