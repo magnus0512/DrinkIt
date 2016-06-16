@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> barNames = new ArrayList<String>();
     //{{        add("A");        add("B");        add("C");    }};
 
+    private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
+    private static final int SEND_SMS_PERMISSION_REQUEST = 2;
+
     BeerFragment beerFrag;
     CoffeeFragment coffeeFrag;
 
@@ -125,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         // Used to determine if Coffee-button has been clicked
         // so that the screen reverts to Beer-fragment
 
+        getPermissionToReadUserContacts();
+        getPermissionToSendTexts();
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
@@ -298,6 +303,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+    public void getPermissionToReadUserContacts(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
+                    READ_CONTACTS_PERMISSION_REQUEST);
+        }
+    }
+
+    public void getPermissionToSendTexts(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                    SEND_SMS_PERMISSION_REQUEST);
+        }
+    }
 
 
 }
