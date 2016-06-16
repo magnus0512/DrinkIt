@@ -38,8 +38,10 @@ public class ListItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 AlertDialogFragment dialog = AlertDialogFragment.newInstance();
                 dialog.show(getActivity().getFragmentManager(), "AlertDialogFragment");
+
             }
         });
 
@@ -63,7 +65,6 @@ public class ListItemFragment extends Fragment {
         barNameButton.setText(name);
 
     }
-
     public static class AlertDialogFragment extends DialogFragment {
         String titel = "Titel";
         String openHours = "Open Hours";
@@ -105,7 +106,7 @@ public class ListItemFragment extends Fragment {
                                 public void onClick(
                                         final DialogInterface dialog, int id) {
 
-                                         }
+                                }
                             })
                     .create();
         }
