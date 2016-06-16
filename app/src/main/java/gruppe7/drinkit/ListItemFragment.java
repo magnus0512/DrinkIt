@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,9 @@ public class ListItemFragment extends Fragment {
     Button findButton;
     String barName = "testing";
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listItemView = inflater.inflate(R.layout.list_item, container, false);
@@ -33,8 +37,9 @@ public class ListItemFragment extends Fragment {
         barNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialogFragment.newInstance();
 
+                AlertDialogFragment dialog = AlertDialogFragment.newInstance();
+                dialog.show(getActivity().getFragmentManager(), "AlertDialogFragment");
             }
         });
 
@@ -60,6 +65,10 @@ public class ListItemFragment extends Fragment {
     }
 
     public static class AlertDialogFragment extends DialogFragment {
+        String titel = "Titel";
+        String openHours = "Open Hours";
+        String priser = "Priser";
+        String lokation = "Lokation";
 
         public static AlertDialogFragment newInstance() {
             return new AlertDialogFragment();
@@ -72,18 +81,23 @@ public class ListItemFragment extends Fragment {
                     .setTitle("Diagonalen")
                     //Sætter info om bar
                     //Todo hent info
-                    .setMessage("Åbningstider: Priser: Lokation: ")
+                    .setMessage(openHours +"\n"+ priser+ "\n" + lokation)
                     //gør det muligt at trykke tilbage
                     .setCancelable(true)
                     //Sætter "cancel"-kanppen; lukker dialogboksen
-                    .setNegativeButton(android.R.string.cancel, null)
+                    .setNeutralButton(android.R.string.cancel, null)
+
                     //Sætter "share"-knappen
                     //Todo: tilføj share funktion
-/*
-                    .setNeutralButton("Share",
-                            new DialogInterface.OnClickListener() {})
-*/
-                    //Sætter "find"-knappen, *mangler funktion til Maps*
+                    .setNegativeButton("share",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(
+                                        final DialogInterface dialog, int id) {
+
+                                }
+                            })
+
+                    //Sætter "find"-knappen
                     //Todo: Åben Maps med rute
 
                     .setPositiveButton("Find",
@@ -91,13 +105,12 @@ public class ListItemFragment extends Fragment {
                                 public void onClick(
                                         final DialogInterface dialog, int id) {
 
-                                }
+                                         }
                             })
                     .create();
         }
 
     }
-
 
 
 }
