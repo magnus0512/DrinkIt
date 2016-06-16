@@ -5,10 +5,12 @@ package gruppe7.drinkit;
  */
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,10 @@ public class Settings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("DTU DrinkIt");
+        toolbar.setBackgroundColor(Color.rgb(250,150,0));
+
         addListenerOkButton();
         addListenerCancelButton();
 
@@ -54,17 +60,18 @@ public class Settings extends Activity {
                 }else{
                     result.append("Only Open :").append("Off");
                 }
+
                 if (sortId == R.id.DistanceRadiobutton) {
-                    result.append("\nDistance :").append("Current");
+                    result.append("\n Distance :").append("Current");
                 } else {
-                    result.append("\nPrice :").append("Current");
-
+                    result.append("\n Price :").append("Current");
                 }
+
                 if (searchId == R.id.BeerRadioButton) {
-                    result.append("\nBeer :").append("Current");
+                    result.append("\n Beer :").append("Current");
 
                 } else {
-                    result.append("\nCoffee :").append("Current");
+                    result.append("\n Coffee :").append("Current");
 
                 }
                 Toast.makeText(Settings.this, result.toString(),
