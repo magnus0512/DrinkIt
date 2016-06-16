@@ -9,11 +9,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/list_container"
+            android:id="@+id/list_container_beer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:text="Hello World!">
+            android:text="Beer fragment">
             <!-- Content here, e.g. Fragments -->
 
 

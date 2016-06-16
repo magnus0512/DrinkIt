@@ -1,19 +1,26 @@
 package gruppe7.drinkit;
 
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+//import android.app.Fragment;
+//import android.app.FragmentManager;
+//import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import gruppe7.drinkit.R;
-
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.content.Context;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     final private static String APP_TITLE = "DTU DrinkIt";
@@ -21,40 +28,69 @@ public class MainActivity extends AppCompatActivity {
     //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
+    FragmentManager fragMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //
+
+        RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(APP_TITLE);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Coffee"));
-        tabLayout.addTab(tabLayout.newTab().setText("Beer"));
+        fragMan = getSupportFragmentManager();
 
-        // Overvej lige hvad den her gør ...
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        // Default screen is BeerFragment (should probably be changed to Coffee)
+        //fragMan = getSupportFragmentManager();
+        FragmentTransaction fragTrans = fragMan.beginTransaction();
+        BeerFragment beerFrag = new BeerFragment();
+        fragTrans.add(R.id.list_upper_container, beerFrag);
+        fragTrans.addToBackStack(null);
+        fragTrans.commit();
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        // Make buttons for toggling the bar list
+        final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
+        //coffeeButton.setBackgroundColor(Color.LTGRAY);
+        final Button beerButton = (Button) findViewById(R.id.beerButton);
+        //beerButton.setBackgroundColor(Color.LTGRAY);
+
+        // Remember to change this, if default button is coffee
+        beerButton.setTextColor(Color.BLUE);
+
+        coffeeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+            public void onClick(View v) {
+                // Install coffeeFragment
+                CoffeeFragment coffeeFrag = new CoffeeFragment();
+                FragmentTransaction fragTrans = fragMan.beginTransaction();
+                fragTrans.replace(R.id.list_upper_container, coffeeFrag);
+                fragTrans.addToBackStack(null);
+                fragTrans.commit();
+
+                coffeeButton.setTextColor(Color.BLUE);
+                beerButton.setTextColor(Color.DKGRAY);
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
         });
+
+        beerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Install beerFragment
+                BeerFragment beerFrag = new BeerFragment();
+                FragmentTransaction fragTrans = fragMan.beginTransaction();
+                fragTrans.replace(R.id.list_upper_container, beerFrag);
+                fragTrans.addToBackStack(null);
+                fragTrans.commit();
+
+                beerButton.setTextColor(Color.BLUE);
+                coffeeButton.setTextColor(Color.DKGRAY);
+            }
+        });
+
+
     }
 
 
@@ -80,39 +116,13 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-/*
-    // Called when the user selects an item in the TabFragment
+
+    // TODO: Lav en metode, måske her, som opdaterer ArrayListen i BeerFragment/CoffeeFragment
+
     @Override
-    public void onListSelection(int index) {
+    public void onResume() {
+        super.onResume();
 
-        // If the QuoteFragment has not been added, add it now
-        if (!mDetailsFragment.isAdded()) {
-
-            // Start a new FragmentTransaction
-            FragmentTransaction fragmentTransaction = mFragmentManager
-                    .beginTransaction();
-
-            // Add the QuoteFragment to the layout
-            fragmentTransaction.add(R.id.quote_fragment_container, mDetailsFragment);
-
-            // Add this FragmentTransaction to the backstack
-            fragmentTransaction.addToBackStack(null);
-
-            // Commit the FragmentTransaction
-            fragmentTransaction.commit();
-
-            // Force Android to execute the committed FragmentTransaction
-            mFragmentManager.executePendingTransactions();
-        }
-
-        if (mDetailsFragment.getShownIndex() != index) {
-
-            // TODO: Vis dialogboks
-
-            // Tell the QuoteFragment to show the quote string at position index
-            mDetailsFragment.showQuoteAtIndex(index);
-
-        }
     }
-    */
+
 }

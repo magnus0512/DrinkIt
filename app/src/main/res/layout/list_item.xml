@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:rowCount="1">
+<LinearLayout android:id="@+id/outer_linear_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="5"
+    android:orientation="horizontal"
+    android:layout_below="@id/toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:id="@+id/barName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4" />
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:text="Hegnet"/>
-
-    <!-- Overvej Action Provider -->
-
-    <Button
-        android:layout_width="64dp"
-        android:layout_height="match_parent"
+    <Button android:id="@+id/barFind"
         android:text="Find"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+</LinearLayout>
 
-</RelativeLayout>
+    <!--
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rowCount="1">
+
+        <Button
+            android:id="@+id/barName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/barFind"/>
+
+    <Button
+    android:id="@+id/barFind"
+    android:layout_width="64dp"
+    android:layout_height="match_parent"
+    android:text="Find"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true" />
+
+        </RelativeLayout> -->
