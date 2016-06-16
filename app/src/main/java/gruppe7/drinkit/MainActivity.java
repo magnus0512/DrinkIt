@@ -1,19 +1,25 @@
 package gruppe7.drinkit;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +33,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +42,19 @@ public class MainActivity extends AppCompatActivity {
     final private int orangeColor = Color.rgb(250,150,0);
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
+    private boolean firstRun = true;
+    final private double[][] placeringer = { {55.782692, 12.521126} , //Hegnet
+            { 55.782692, 12.521126} , //Diamanten
+            { 55.783614, 12.517722} , //Studentercaféen 325
+            { 55.786469, 12.525771} , //S-Huset / Kælderbaren / Kaffestuen
+            { 55.783709, 12.524161} , //Døgn netto
+            { 55.785300, 12.518852} , //PF cafe i 302
+            { 55.787490, 12.518530} , //Etheren
+            { 55.789282, 12.525072} , //Diagonalen
+            { 55.780230, 12.516851} , //Maskinen
 
+    };;
+    ArrayList<Integer> afstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     //{{        add("A");        add("B");        add("C");    }};
 
@@ -73,11 +92,18 @@ public class MainActivity extends AppCompatActivity {
         // loadBarNames();
 
         // just for testing
-        barNames.add("Hello");
-        barNames.add("out");
-        barNames.add("there");
+        barNames.add("Hegnet");
+        barNames.add("Diamanten");
+        barNames.add("Studentercaféen 325");
+        barNames.add("S Huset");
+        barNames.add("Døgn netto");
+        barNames.add("PF cafe i 302");
+        barNames.add("Etheren");
+        barNames.add("Diagonalen");
+        barNames.add("Maskinen");
 
         beerFrag.barNames = barNames;
+
 
         coffeeFrag = new CoffeeFragment();
 
@@ -146,7 +172,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+        new Distance().execute();
 
     }
 
@@ -179,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
+        beerFrag.barNames = barNames;
         // barNames has been updated by ..... (sorting algorithm)
 /*
         barNames.add("Hello");
@@ -188,6 +221,72 @@ public class MainActivity extends AppCompatActivity {
 */
 
         //beerFrag.barNames = barNames;
+
     }
+
+
+    private class Distance extends AsyncTask<Void, Void, Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+           // barNames.set(0, "test" + afstandsberegner(placeringer[0][0],placeringer[0][1]));
+            for (int i = 0 ; i < barNames.size(); i++){
+                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
+                if (firstRun){
+                    afstande.add(afstand);
+                }
+                if (barNames.get(i).indexOf("-") == -1){
+                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
+                }
+                else{
+                    int index = barNames.get(i).indexOf("-");
+                    String nytBarNavn = barNames.get(i).substring(0, index-1);
+                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
+                }
+            }
+            firstRun = false;
+
+            return null;
+        }
+        protected void onPostExecute() {
+            beerFrag.barNames = barNames;
+        }
+    }
+
+    public int afstandsberegner(double lat, double longti) {
+
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        try {
+            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            double R = 6372800;
+            double lat1 = lastKnownLocation.getLatitude();
+            double lat2 = lat;
+            double long1 = lastKnownLocation.getLongitude();
+            double long2 = longti;
+
+            double deltaLat = Math.toRadians(lat2 - lat1);
+            double deltaLong = Math.toRadians(long2 - long1);
+            lat1 = Math.toRadians(lat1);
+            lat2 = Math.toRadians(lat2);
+
+            double a = Math.pow(Math.sin(deltaLat / 2),2) + Math.pow(Math.sin(deltaLong / 2),2) * Math.cos(lat1) * Math.cos(lat2);
+            double c = 2 * Math.asin(Math.sqrt(a));
+            double test = R*c;
+            return ((int) test);
+
+            // Se http://www.movable-type.co.uk/scripts/latlong.html for formler
+        } catch (SecurityException e){
+            return 0;
+        }
+    }
+
+
 
 }
