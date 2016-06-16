@@ -1,5 +1,9 @@
 package gruppe7.drinkit;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,14 +32,16 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     final private static String APP_TITLE = "DTU DrinkIt";
     ArrayList<String> barNames = new ArrayList<String>();
+    //{{        add("A");        add("B");        add("C");    }};
 
-    BeerFragment beerFrag = new BeerFragment();
-    CoffeeFragment coffeeFrag = new CoffeeFragment();
+    BeerFragment beerFrag;
+    CoffeeFragment coffeeFrag;
 
     //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
     FragmentManager fragMan;
+    boolean coffeeActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +57,26 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fragMan = getSupportFragmentManager();
+        beerFrag = new BeerFragment();
 
-        // Default screen is BeerFragment (should probably be changed to Coffee)
-        //fragMan = getSupportFragmentManager();
+        Log.i("main","entered OnCreate");
+        barNames.add("Hello");
+        barNames.add("out");
+        barNames.add("there");
+
+        beerFrag.barNames = barNames;
+
+        coffeeFrag = new CoffeeFragment();
+
+        // Set default screen to a BeerFragment (should probably be changed to Coffee)
         FragmentTransaction fragTrans = fragMan.beginTransaction();
-
         fragTrans.add(R.id.list_upper_container, beerFrag);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
+
+        // Used to determine if Coffee-button has been clicked
+        // so that the screen reverts to Beer-fragment
+
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
@@ -68,10 +87,17 @@ public class MainActivity extends AppCompatActivity {
         // Remember to change this, if default button is coffee
         beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
 
+
         coffeeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Install coffeeFragment
+
+                if (!coffeeActive) {
+                    fragMan.popBackStack();
+                    Log.i("main","popped BeerFragment");
+                }
+
                 FragmentTransaction fragTrans = fragMan.beginTransaction();
                 fragTrans.replace(R.id.list_upper_container, coffeeFrag);
                 fragTrans.addToBackStack(null);
@@ -79,17 +105,27 @@ public class MainActivity extends AppCompatActivity {
 
                 coffeeButton.setTextColor(getResources().getColor(R.color.lightbrown));
                 beerButton.setTextColor(Color.DKGRAY);
+
+                coffeeActive = true;
             }
         });
 
         beerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (coffeeActive) {
+                    fragMan.popBackStack();
+                    coffeeActive = false;
+                    Log.i("main","popped CoffeeFragment");
+                }
+
                 // Install beerFragment
                 FragmentTransaction fragTrans = fragMan.beginTransaction();
                 fragTrans.replace(R.id.list_upper_container, beerFrag);
                 fragTrans.addToBackStack(null);
                 fragTrans.commit();
+
 
                 beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
                 coffeeButton.setTextColor(Color.DKGRAY);
@@ -134,9 +170,9 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Hello");
         barNames.add("out");
         barNames.add("there");
-        */
+*/
 
-        beerFrag.barNames = barNames;
+        //beerFrag.barNames = barNames;
     }
 
 }
