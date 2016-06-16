@@ -34,6 +34,7 @@ public class ListItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialogFragment.newInstance();
+
             }
         });
 
@@ -57,7 +58,6 @@ public class ListItemFragment extends Fragment {
         barNameButton.setText(name);
 
     }
-
 
     public static class AlertDialogFragment extends DialogFragment {
 
@@ -97,6 +97,7 @@ public class ListItemFragment extends Fragment {
         }
 
     }
+
 
 
 }
