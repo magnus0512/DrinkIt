@@ -14,14 +14,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class BeerFragment extends Fragment {
-    ArrayList<ListItemFragment> listFrags;
-    ArrayList<String> barNames;
+    ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
+    ArrayList<String> barNames = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.tab_fragment_beer, container, false);
-
+/*
+        barNames.add("Hi");
+        barNames.add("There");
+        barNames.add("Mate");
+*/
         FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
 
@@ -35,19 +39,22 @@ public class BeerFragment extends Fragment {
         // måske sammen med ArrayListen barNames
 
 
-        // for (int i = 0; i < names.size(); i++) {
-        ListItemFragment listItemFrag = new ListItemFragment();
-        //listFrags.add(listItemFrag);
-        childFragTrans.add(R.id.list_container_beer, listItemFrag);
-        childFragTrans.addToBackStack(null);
-
-        // }
+        for (int i = 0; i < barNames.size(); i++) {
+            ListItemFragment listItemFrag = new ListItemFragment();
+            listItemFrag.barName = barNames.get(i);
+            listFrags.add(listItemFrag);
+            childFragTrans.add(R.id.list_container_beer, listItemFrag);
+            childFragTrans.addToBackStack(null);
+        }
 
         childFragTrans.commit();
 
-
+/*
+        for (int i = 0; i < listFrags.size(); i++) {
+            ListItemFragment listItemFrag = listFrags.get(i);
+            listItemFrag.setBarName(barNames.get(i));
+        }
+*/
         return rootView;
     }
-
-
 }

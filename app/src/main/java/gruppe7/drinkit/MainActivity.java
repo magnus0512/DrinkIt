@@ -22,8 +22,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     final private static String APP_TITLE = "DTU DrinkIt";
+    ArrayList<String> barNames = new ArrayList<String>();
+
+    BeerFragment beerFrag = new BeerFragment();
+    CoffeeFragment coffeeFrag = new CoffeeFragment();
 
     //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     //String locationProvider = LocationManager.NETWORK_PROVIDER;
@@ -35,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
+        //RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(APP_TITLE);
+        toolbar.setBackgroundColor(Color.rgb(250,150,0));
+        //toolbar.setBackgroundColor(getResources().getColor(R.color.orange));
         setSupportActionBar(toolbar);
 
         fragMan = getSupportFragmentManager();
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // Default screen is BeerFragment (should probably be changed to Coffee)
         //fragMan = getSupportFragmentManager();
         FragmentTransaction fragTrans = fragMan.beginTransaction();
-        BeerFragment beerFrag = new BeerFragment();
+
         fragTrans.add(R.id.list_upper_container, beerFrag);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
@@ -58,19 +66,18 @@ public class MainActivity extends AppCompatActivity {
         //beerButton.setBackgroundColor(Color.LTGRAY);
 
         // Remember to change this, if default button is coffee
-        beerButton.setTextColor(Color.BLUE);
+        beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
 
         coffeeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Install coffeeFragment
-                CoffeeFragment coffeeFrag = new CoffeeFragment();
                 FragmentTransaction fragTrans = fragMan.beginTransaction();
                 fragTrans.replace(R.id.list_upper_container, coffeeFrag);
                 fragTrans.addToBackStack(null);
                 fragTrans.commit();
 
-                coffeeButton.setTextColor(Color.BLUE);
+                coffeeButton.setTextColor(getResources().getColor(R.color.lightbrown));
                 beerButton.setTextColor(Color.DKGRAY);
             }
         });
@@ -79,13 +86,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Install beerFragment
-                BeerFragment beerFrag = new BeerFragment();
                 FragmentTransaction fragTrans = fragMan.beginTransaction();
                 fragTrans.replace(R.id.list_upper_container, beerFrag);
                 fragTrans.addToBackStack(null);
                 fragTrans.commit();
 
-                beerButton.setTextColor(Color.BLUE);
+                beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
                 coffeeButton.setTextColor(Color.DKGRAY);
             }
         });
@@ -123,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        // barNames has been updated by ..... (sorting algorithm)
+/*
+        barNames.add("Hello");
+        barNames.add("out");
+        barNames.add("there");
+        */
+
+        beerFrag.barNames = barNames;
     }
 
 }
