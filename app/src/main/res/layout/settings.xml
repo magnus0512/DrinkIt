@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SearchTextView"
+        android:text="Select Search Preference"
+        />
     <RadioGroup
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -36,7 +42,12 @@
             />
 
     </RadioGroup>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SortTextView"
+        android:text="Select Sort Preference"
+        />
     <RadioGroup
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -81,7 +92,6 @@
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="sendMessage"
             android:checked="false"/>
     </LinearLayout>
     <LinearLayout
@@ -94,7 +104,6 @@
         <Button xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/OkButton"
             android:text="Ok"
-            android:onClick="sendMessage"
             android:layout_column="4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -103,7 +112,6 @@
         <Button xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/CancelButton"
             android:text="Cancel"
-            android:onClick="sendMessage"
             android:layout_column="42"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

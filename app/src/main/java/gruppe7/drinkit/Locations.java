@@ -58,7 +58,6 @@ public class Locations extends Activity {
     }
 
 
-
     public double afstandsberegner(Location newLocation) {
         try {
             Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
