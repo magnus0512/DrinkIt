@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             { 55.780230, 12.516851} , //Maskinen
 
     };;
-    ArrayList<Integer> afstande = new ArrayList<Integer>();
+    ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     //{{        add("A");        add("B");        add("C");    }};
 
@@ -230,16 +230,25 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(1000);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
            // barNames.set(0, "test" + afstandsberegner(placeringer[0][0],placeringer[0][1]));
             for (int i = 0 ; i < barNames.size(); i++){
                 int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
                 if (firstRun){
-                    afstande.add(afstand);
+                    barAfstande.add(afstand);
+                }
+                if (barNames.get(i).indexOf("-") == -1){
+                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
+                }
+                else{
+                    int index = barNames.get(i).indexOf("-");
+                    String nytBarNavn = barNames.get(i).substring(0, index-1);
+                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
+                }
+            }
+            for (int i = 0 ; i < barNames.size(); i++){
+                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
+                if (firstRun){
+                    barAfstande.add(afstand);
                 }
                 if (barNames.get(i).indexOf("-") == -1){
                     barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
@@ -251,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             firstRun = false;
-
             return null;
         }
         protected void onPostExecute() {
