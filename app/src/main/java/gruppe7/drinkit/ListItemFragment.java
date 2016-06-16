@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,9 +30,12 @@ public class ListItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listItemView = inflater.inflate(R.layout.list_item, container, false);
+        // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
 
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
         barNameButton.setText(barName);
+        barNameButton.setTextColor(Color.BLACK);
+        //barNameButton.setBackgroundColor(Color.LTGRAY);
 
         // TODO: Open Dialog
         barNameButton.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +60,7 @@ public class ListItemFragment extends Fragment {
             }
         });
 
-        // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
+
         return listItemView;
 
     }
