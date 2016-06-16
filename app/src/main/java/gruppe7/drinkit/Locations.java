@@ -33,10 +33,10 @@ import android.widget.TextView;
  * Created by Frederik on 14-06-2016.
  */
 public class Locations extends Activity {
-/*
+
     LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     String locationProvider = LocationManager.NETWORK_PROVIDER;
-    Location[] places = new Location[50];
+
 
 
     @Override
@@ -47,17 +47,14 @@ public class Locations extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-
-
-
-        for (final TextView bar : ListView){
+            /*
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     bar.setText(afstandsberegner(bar.Location));
                 }
             });
-        }
+            */
     }
 
 
@@ -85,6 +82,6 @@ public class Locations extends Activity {
         }
     }
 
-*/
+
 }
 
