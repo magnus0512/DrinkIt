@@ -30,7 +30,12 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    final private static String TAG = "MainActivity";
     final private static String APP_TITLE = "DTU DrinkIt";
+    final private int orangeColor = Color.rgb(250,150,0);
+    final private int selectedOrange = Color.rgb(225,125,0);
+    final private int TITLE_COLOR = Color.BLACK;
+
     ArrayList<String> barNames = new ArrayList<String>();
     //{{        add("A");        add("B");        add("C");    }};
 
@@ -52,14 +57,22 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(APP_TITLE);
-        toolbar.setBackgroundColor(Color.rgb(250,150,0));
+        toolbar.setBackgroundColor(orangeColor);
+        toolbar.setTitleTextColor(TITLE_COLOR);
         //toolbar.setBackgroundColor(getResources().getColor(R.color.orange));
         setSupportActionBar(toolbar);
 
         fragMan = getSupportFragmentManager();
         beerFrag = new BeerFragment();
 
-        Log.i("main","entered OnCreate");
+        Log.i(TAG,"entered OnCreate");
+
+        // TODO: Load location
+        // getUserLocation(); eller placer denne i loadBarNames
+        // TODO: Load barNames from Location
+        // loadBarNames();
+
+        // just for testing
         barNames.add("Hello");
         barNames.add("out");
         barNames.add("there");
@@ -80,12 +93,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
-        //coffeeButton.setBackgroundColor(Color.LTGRAY);
+        coffeeButton.setBackgroundColor(orangeColor);
         final Button beerButton = (Button) findViewById(R.id.beerButton);
-        //beerButton.setBackgroundColor(Color.LTGRAY);
+        beerButton.setBackgroundColor(orangeColor);
 
-        // Remember to change this, if default button is coffee
-        beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
+        // Remember to change colors, if default button is coffee
+        coffeeButton.setBackgroundColor(orangeColor);
+        beerButton.setBackgroundColor(selectedOrange);
 
 
         coffeeButton.setOnClickListener(new View.OnClickListener() {
@@ -95,18 +109,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!coffeeActive) {
                     fragMan.popBackStack();
-                    Log.i("main","popped BeerFragment");
+                    Log.i(TAG, "popped BeerFragment");
+
+
+                    FragmentTransaction fragTrans = fragMan.beginTransaction();
+                    fragTrans.replace(R.id.list_upper_container, coffeeFrag);
+                    fragTrans.addToBackStack(null);
+                    fragTrans.commit();
+
+                    beerButton.setBackgroundColor(orangeColor);
+                    coffeeButton.setBackgroundColor(selectedOrange);
+
+                    coffeeActive = true;
                 }
-
-                FragmentTransaction fragTrans = fragMan.beginTransaction();
-                fragTrans.replace(R.id.list_upper_container, coffeeFrag);
-                fragTrans.addToBackStack(null);
-                fragTrans.commit();
-
-                coffeeButton.setTextColor(getResources().getColor(R.color.lightbrown));
-                beerButton.setTextColor(Color.DKGRAY);
-
-                coffeeActive = true;
             }
         });
 
@@ -117,18 +132,18 @@ public class MainActivity extends AppCompatActivity {
                 if (coffeeActive) {
                     fragMan.popBackStack();
                     coffeeActive = false;
-                    Log.i("main","popped CoffeeFragment");
+                    Log.i(TAG, "popped CoffeeFragment");
+
+
+                    // Install beerFragment
+                    FragmentTransaction fragTrans = fragMan.beginTransaction();
+                    fragTrans.replace(R.id.list_upper_container, beerFrag);
+                    fragTrans.addToBackStack(null);
+                    fragTrans.commit();
+
+                    coffeeButton.setBackgroundColor(orangeColor);
+                    beerButton.setBackgroundColor(selectedOrange);
                 }
-
-                // Install beerFragment
-                FragmentTransaction fragTrans = fragMan.beginTransaction();
-                fragTrans.replace(R.id.list_upper_container, beerFrag);
-                fragTrans.addToBackStack(null);
-                fragTrans.commit();
-
-
-                beerButton.setTextColor(getResources().getColor(R.color.lightbrown));
-                coffeeButton.setTextColor(Color.DKGRAY);
             }
         });
 
