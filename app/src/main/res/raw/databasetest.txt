@@ -1,3 +1,13 @@
+325 Studentercafeen
+B325
+55.783615
+12.517712
+Alle dage
+Altid åben
+Altid åben
+2
+1
+KAFFE
 324 Kaffeautomat
 B324
 55.783810
@@ -5,36 +15,236 @@ B324
 Alle dage
 Altid åben
 Altid åben
-12
+10
 1
 KAFFE
-Etheren
-B324
-55.783810
-12.518420
-Fredag
+101D Biblioteket
+B101D
+55.786980
+12.523383
+Alle dage
 Altid åben
 Altid åben
+10
+1
+KAFFE
+Riccos Kaffebar
+DIPLOMVEJ 381
+55.7828133
+12.51314339999999
+Hverdage
+8:00
+17:00
 24
+1
+KAFFE
+208 Kaffeautomat
+B208
+55.787518
+12.518523
+Alle dage
+Altid åben
+Altid åben
+6
+1
+KAFFE
+210 Kaffeautomat
+B210
+55.787839
+12.519306
+Alle dage
+Altid åben
+Altid åben
+6
+1
+KAFFE
+358 Kantine
+B358
+55.780118
+12.517680
+Hverdage
+07:30
+13:30
+5
+1
+KAFFE
+358 Boghandel
+B358
+55.780348
+12.516526
+Alle dage
+Altid åben
+Altid åben
+10
+1
+KAFFE
+421 Kaffeautomat
+B421
+55.781905
+12.521373
+Alle dage
+Altid åben
+Altid åben
+6
+1
+KAFFE
+450 Kaffeautomat
+B450
+55.779578
+12.520640
+Alle dage
+Altid åben
+Altid åben
+6
+1
+KAFFE
+PF cafeen
+B306
+55.785420
+12.518939
+Hverdage
+7.30
+17.00
+5
+1
+KAFFE
+116 Bønnen
+B116
+55.789052
+12.525534
+Alle dage
+Altid åben
+Altid åben
+2
+1
+KAFFE
+101 Cafeen
+B101E
+55.786529
+12.524952
+Hverdage
+8:00
+20:00
+6
+1
+KAFFE
+S-huset
+B101E
+55.786488
+12.525640
+fredagsåbent
+12:00
+21:00
+25
 2
 ØL
-322 Kaffeautomat
-B324
-55.783810
-12.518420
-Alle dage
-Altid åben
-Altid åben
-11
+S-huset
+B101E
+55.786488
+12.525640
+fredagsåbent
+12:00
+21:00
+5
 1
 KAFFE
-324 Kaffeautomat
-B324
-55.783810
-12.518420
-Whatever
-Altid åben
-Altid åben
+Diagonalen
+B116
+55.789405
+12.525750
+fredagsåbent
+12:00
+21:00
+25
+3
+ØL
+Kælderbaren
+B101E
+55.786488
+12.525640
+Hverdage
+19:00
+23:59
+25
+1
+ØL
+Diamanten
+B414
+55.782656
+12.521109
+fredagsåbent
+12:00
+21:00
+25
+3
+ØL
+Etheren
+B208
+55.787454
+12.518452
+fredagsåbent
+12:00
+21:00
+25
+3
+ØL
+Maskinen
+B358
+55.780165
+12.516884
+fredagsåbent
+12:00
+21:00
+15
+2
+ØL
+Hegnet
+B342
+55.782364
+12.517084
+fredagsåbent
+12:00
+21:00
+15
+2
+ØL
+Hegnet
+B342
+55.782364
+12.517084
+Hverdage
+08:00
+14:00
+10
+1
+KAFFE
+Døgn Netto
+Kollegiebakken 7
+55.783779
+12.524143
+Alle dage
+8:00
+24:00
+8
+1
+ØL
+PF caféen
+B306
+55.785475
+12.518914
+Hverdage
+7:30
+17:00
+15
+2
+ØL
+Hovedkantine 101
+B101E
+55.786597
+12.524619
+Hverdage
+11:00
+14:00
 17
 1
-KAFFE
+ØL
