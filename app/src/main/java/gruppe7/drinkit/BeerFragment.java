@@ -42,9 +42,6 @@ public class BeerFragment extends Fragment {
             ListItemFragment listItemFrag = new ListItemFragment();
             //listItemFrag.barName = bars.get(i).getName();
             listItemFrag.bar = bars.get(i);
-            if (listItemFrag.bar.isOpen()){
-           //     listItemFrag.barNameButton.setTextColor(Color.GRAY);
-            }
             listFrags.add(listItemFrag);
             childFragTrans.add(R.id.list_container_beer, listItemFrag);
             childFragTrans.addToBackStack(null);
