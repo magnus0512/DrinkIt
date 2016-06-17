@@ -132,14 +132,17 @@ public class MainActivity extends AppCompatActivity {
         //barFrag.barNames = barNames;
 
         //originale = barNames;
+        getPermissionToReadUserContacts();
+        getPermissionToSendTexts();
+        getPermissionToTrackUser();
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
+       /* if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
-        }
+        }*/
 
         //new Distance().execute();
 
@@ -170,9 +173,7 @@ public class MainActivity extends AppCompatActivity {
         //fragTrans.addToBackStack(null);
         fragTrans.commit();
 
-        getPermissionToReadUserContacts();
-        getPermissionToSendTexts();
-        getPermissionToTrackUser();
+
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
