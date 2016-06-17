@@ -314,21 +314,21 @@ public class MainActivity extends AppCompatActivity {
     public void getPermissionToReadUserContacts(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
 
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},
                     READ_CONTACTS_PERMISSION_REQUEST);
         }
     }
 
     public void getPermissionToSendTexts(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
                     SEND_SMS_PERMISSION_REQUEST);
         }
     }
 
     public void getPermissionToTrackUser(){
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -411,6 +411,8 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.sort(bars);
     }
+
+
     public static class Bar implements Comparable<Bar> {
 
         private String name;
