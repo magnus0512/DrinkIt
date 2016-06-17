@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class BeerFragment extends Fragment {
     ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
-    ArrayList<String> barNames = new ArrayList<String>();
+    //ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<Bar> bars = new ArrayList<Bar>();
 
     @Override
@@ -36,9 +36,9 @@ public class BeerFragment extends Fragment {
         // måske sammen med ArrayListen barNames
 
 
-        for (int i = 0; i < barNames.size(); i++) {
+        for (int i = 0; i < bars.size(); i++) {
             ListItemFragment listItemFrag = new ListItemFragment();
-            listItemFrag.barName = barNames.get(i);
+            //listItemFrag.barName = bars.get(i).getName();
             listItemFrag.bar = bars.get(i);
             listFrags.add(listItemFrag);
             childFragTrans.add(R.id.list_container_beer, listItemFrag);

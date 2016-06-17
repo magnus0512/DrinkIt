@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     };
     ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
-    ArrayList<String> originale = new ArrayList<String>();
+    //ArrayList<String> originale = new ArrayList<String>();
 
     ArrayList<Bar> beerBars = new ArrayList<Bar>();
     ArrayList<Bar> coffeeBars = new ArrayList<Bar>();
@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Maskinen");
 
 
-        barFrag.barNames = barNames;
+        //barFrag.barNames = barNames;
 
-        originale = barNames;
+        //originale = barNames;
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         sortDistance(beerBars);
 
         for(int i = 0; i < beerBars.size(); i++) {
-            barFrag.barNames.add(beerBars.get(i).getName());
+            //barFrag.barNames.add(beerBars.get(i).getName());
             barFrag.bars.add(beerBars.get(i));
         }
 
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < coffeeBars.size(); i++) {
-                        updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
+                        //updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
                         updatedBarFrag.bars.add(coffeeBars.get(i));
                     }
 
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < beerBars.size(); i++) {
-                        updatedBarFrag.barNames.add(beerBars.get(i).getName());
+                        //updatedBarFrag.barNames.add(beerBars.get(i).getName());
                         updatedBarFrag.bars.add(beerBars.get(i));
                     }
 

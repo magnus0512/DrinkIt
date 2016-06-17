@@ -26,10 +26,8 @@ public class ListItemFragment extends Fragment {
     View listItemView;
     Button barNameButton;
     Button findButton;
-    String barName = "testing";
+    //String barName = "testing";
     Bar bar;
-
-
 
 
     @Override
@@ -38,7 +36,7 @@ public class ListItemFragment extends Fragment {
         // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
 
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
-        barNameButton.setText(barName);
+        barNameButton.setText(bar.getName());
         barNameButton.setTextColor(Color.BLACK);
         //barNameButton.setBackgroundColor(Color.LTGRAY);
 
