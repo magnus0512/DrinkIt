@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
     private boolean firstRun = true;
-    final public double[][] placeringer = {
+    final private double[][] placeringer = {
             { 55.782378, 12.517101} , //Hegnet
             { 55.782692, 12.521126} , //Diamanten
             { 55.783614, 12.517722} , //Studentercaféen 325
@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<String> originale = new ArrayList<String>();
+    ArrayList<Bar> coffeeBars;
+    ArrayList<Bar> beerBars;
+
     //{{        add("A");        add("B");        add("C");    }};
 
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
@@ -113,9 +116,17 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
         originale = barNames;
-
-
-        beerFrag.barNames = barNames;
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+        new Distance().execute();
+        for(int i = 0; i<beerBars.size(); i++) {
+            beerFrag.barNames.add(beerBars.get(i).getName());
+        }
 
 
         coffeeFrag = new CoffeeFragment();
@@ -131,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
-        getPermissionToTrackUser();
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
@@ -234,20 +244,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void Distance (Bar baren){
-        baren.setDistance(afstandsberegner(baren.getLatitude(), baren.getLongitude()));
-        baren.setName(baren.getName() + " - " + baren.getDistance() + "meter");
+    private class Distance extends AsyncTask<Void, Void, Void>{
 
-        if (baren.getName().indexOf("-") == -1){
-            baren.setName(baren.getName() + " - " + baren.getDistance() + "meter");
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (int i = 0 ; i < barNames.size(); i++){
+                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
+                if (firstRun){
+                    barAfstande.add(afstand);
+                } else{
+                    barAfstande.set(i, afstand);
+                }
+                barNames.set(i, originale.get(i) + "  -  " + afstand + " meter" );
+
+            }
+            /* Ekstra loop til kaffe stederne
+            for (int i = 0 ; i < barNames.size(); i++){
+                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
+                if (firstRun){
+                    barAfstande.add(afstand);
+                }
+                if (barNames.get(i).indexOf("-") == -1){
+                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
+                }
+                else{
+                    int index = barNames.get(i).indexOf("-");
+                    String nytBarNavn = barNames.get(i).substring(0, index-1);
+                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
+                }
+            } */
+            firstRun = false;
+            return null;
         }
-        else{
-            baren.setName(baren.getName().substring(0, baren.getName().indexOf("-")-1)
-                    + "- " + baren.getDistance() + "meter");
+        protected void onPostExecute() {
+        //    beerFrag.barNames = barNames;
         }
-
-
-
     }
 
     public int afstandsberegner(double lat, double longti) {
@@ -303,8 +335,10 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
     }
-    public ArrayList<Bar> ReadFile() throws IOException {
-        ArrayList<Bar> bars = new ArrayList<>();
+
+
+    // TODO: Sæt felterne coffeeBars og beerBars (ArrayLists)
+    public void readFile(ArrayList<Bar> coffeeBars, ArrayList<Bar> beerBars ) throws IOException {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
@@ -315,16 +349,19 @@ public class MainActivity extends AppCompatActivity {
                     Bar bar = new Bar();
                     bar.setName(str);
                     bar.setLocation(reader.readLine());
-                    bar.setDrinkType(reader.readLine());
                     bar.setLatitude(Double.parseDouble(reader.readLine()));
                     bar.setLongitude(Double.parseDouble(reader.readLine()));
+                    bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
                     bar.setOpen(reader.readLine());
                     bar.setOpeningTime(reader.readLine());
                     bar.setClosingTime(reader.readLine());
                     bar.setPrice(Double.parseDouble(reader.readLine()));
                     bar.setAmount(Integer.parseInt(reader.readLine()));
-                    bars.add(bar);
-
+                    if (reader.readLine().equals("ØL")) {
+                        beerBars.add(bar);
+                    } else{
+                       coffeeBars.add(bar);
+                    }
                 }
 
 
@@ -332,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return bars;
+
     }
     public boolean isOpen (Bar bar){
         if (bar.getOpen().equals("Altid åben")){
@@ -381,14 +418,13 @@ public class MainActivity extends AppCompatActivity {
         private Double price;
         private String closingTime;
         private String location;
-        private String drinkType;
         private double latitude;
         private double longitude;
         private String open;
         private String type;
         private int amount;
         private Integer distance;
-        private String sortBy = "price";
+        private String sortBy;
 
         public String getSortBy() {
             return sortBy;
@@ -439,15 +475,6 @@ public class MainActivity extends AppCompatActivity {
 
         public void setLatitude(double latitude) {
             this.latitude = latitude;
-        }
-
-
-        public String getDrinkType() {
-            return drinkType;
-        }
-
-        public void setDrinkType(String drinkType) {
-            this.drinkType = drinkType;
         }
 
 
@@ -508,6 +535,4 @@ public class MainActivity extends AppCompatActivity {
             return this.distance.compareTo(o.getDistance());
         }
     }
-
-
 }
