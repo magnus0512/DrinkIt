@@ -203,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
                     for(int i = 0; i < coffeeBars.size(); i++) {
                         //updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
                         updatedBarFrag.bars.add(coffeeBars.get(i));
+
+
                     }
 
                     // Install beerFragment

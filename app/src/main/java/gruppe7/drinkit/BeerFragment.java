@@ -43,6 +43,7 @@ public class BeerFragment extends Fragment {
             listFrags.add(listItemFrag);
             childFragTrans.add(R.id.list_container_beer, listItemFrag);
             childFragTrans.addToBackStack(null);
+
         }
 
         childFragTrans.commit();
