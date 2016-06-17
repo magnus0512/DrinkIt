@@ -1,22 +1,15 @@
 package gruppe7.drinkit;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -27,21 +20,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.content.Context;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+
+final class SettingsOptions{
+    public boolean sortBoolean = true, openBoolean = false;}
 
 public class MainActivity extends AppCompatActivity {
     final private static String TAG = "MainActivity";
@@ -49,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     final private int orangeColor = Color.rgb(250,150,0);
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
+    final private SettingsOptions settingsOptions = new SettingsOptions();
+
     private boolean firstRun = true;
     final private double[][] placeringer = {
             { 55.782378, 12.517101} , //Hegnet
@@ -98,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(orangeColor);
         toolbar.setTitleTextColor(TITLE_COLOR);
         setSupportActionBar(toolbar);
+
+       if(getIntent().getExtras() != null) {
+            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
+            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
+        }else{
+            settingsOptions.sortBoolean = true;
+            settingsOptions.openBoolean = false;}
 
         // Initialise list of bars in the two ArrayLists
         try {
@@ -196,8 +196,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "popped BeerFragment");
 
                     // Sort list of coffee bars
-                    sortDistance(coffeeBars);
-
+                   if(settingsOptions.sortBoolean){
+                        sortDistance(beerBars);
+                    }else{
+                        sortPrice(beerBars);}
                     BeerFragment updatedBarFrag = new BeerFragment();
 
                     // Add bar names to the list of buttons
@@ -231,8 +233,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "popped CoffeeFragment");
 
                     // Sort list of beer bars
-                    sortDistance(beerBars);
+                   if(settingsOptions.sortBoolean){
+                        sortDistance(beerBars);
+                    }else{
+                        sortPrice(beerBars);}
 
+                    sortDistance(beerBars);
                     // Update ArrayList to beerbars
                     BeerFragment updatedBarFrag = new BeerFragment();
 
@@ -293,6 +299,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             barFrag.bars = beerBars;
         }
+       if(getIntent().getExtras() != null) {
+            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
+            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
+        }else{
+            settingsOptions.sortBoolean = true;
+            settingsOptions.openBoolean = false;}
+
     }
 
 
