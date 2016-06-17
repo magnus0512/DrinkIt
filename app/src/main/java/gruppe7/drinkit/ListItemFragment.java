@@ -37,7 +37,12 @@ public class ListItemFragment extends Fragment {
 
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
         barNameButton.setText(bar.getButtonName());
-        barNameButton.setTextColor(Color.BLACK);
+
+        if(bar.isOpen()){
+            barNameButton.setTextColor(Color.BLACK);
+        }else{
+            barNameButton.setTextColor(Color.GRAY);
+        }
         //barNameButton.setBackgroundColor(Color.LTGRAY);
 
         // Åbner dialog med bar-info

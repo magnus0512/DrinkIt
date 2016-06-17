@@ -138,4 +138,39 @@ public class Bar implements Comparable<Bar> {
         return this.distance.compareTo(o.getDistance());
     }
 
+    public boolean isOpen (){
+        Calendar curDate = Calendar.getInstance();
+        int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
+
+        if (getOpen().equals("Alle dage")){
+            return true;
+        }
+        else if (getOpen().equals("fredagsåbent")){
+            if(dayOfWeek !=Calendar.FRIDAY){
+                return false;
+            }
+        }else if(getOpen().equals("Hverdage")){
+            if(dayOfWeek >=(Calendar.MONDAY)&&dayOfWeek<=Calendar.FRIDAY){
+                return false;
+            }
+        }
+        String[] openArray = getOpeningTime().split(":");
+        String[] closedArray = getClosingTime().split(":");
+        int openHours = Integer.parseInt(openArray[0]);
+        int openMin = Integer.parseInt(openArray[1]);
+        int openTimeSec = openHours * 360 + openMin * 60;
+
+        int closedHours = Integer.parseInt(closedArray[0]);
+        int closedMin = Integer.parseInt(closedArray[1]);
+        int closedTimeSec = closedHours * 360 + closedMin * 60;
+
+        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 360 + curDate.get(Calendar.MINUTE) * 60;
+        curDate.get(Calendar.MINUTE);
+
+        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
+            return true;
+        }
+        return false;
+    }
+
 }
