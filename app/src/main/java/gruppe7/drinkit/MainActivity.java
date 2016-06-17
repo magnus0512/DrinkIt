@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
+        getPermissionToTrackUser();
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
