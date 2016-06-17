@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
     private boolean firstRun = true;
-    final private double[][] placeringer = {
+    final public double[][] placeringer = {
             { 55.782378, 12.517101} , //Hegnet
             { 55.782692, 12.521126} , //Diamanten
             { 55.783614, 12.517722} , //Studentercaféen 325
@@ -113,14 +113,7 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
         originale = barNames;
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }
-        new Distance().execute();
+
 
         beerFrag.barNames = barNames;
 
@@ -138,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
+        getPermissionToTrackUser();
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
@@ -240,42 +234,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Distance extends AsyncTask<Void, Void, Void>{
+    private void Distance (Bar baren){
+        baren.setDistance(afstandsberegner(baren.getLatitude(), baren.getLongitude()));
+        baren.setName(baren.getName() + " - " + baren.getDistance() + "meter");
 
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            for (int i = 0 ; i < barNames.size(); i++){
-                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
-                if (firstRun){
-                    barAfstande.add(afstand);
-                } else{
-                    barAfstande.set(i, afstand);
-                }
-                barNames.set(i, originale.get(i) + "  -  " + afstand + " meter" );
-
-            }
-            /* Ekstra loop til kaffe stederne
-            for (int i = 0 ; i < barNames.size(); i++){
-                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
-                if (firstRun){
-                    barAfstande.add(afstand);
-                }
-                if (barNames.get(i).indexOf("-") == -1){
-                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
-                }
-                else{
-                    int index = barNames.get(i).indexOf("-");
-                    String nytBarNavn = barNames.get(i).substring(0, index-1);
-                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
-                }
-            } */
-            firstRun = false;
-            return null;
+        if (baren.getName().indexOf("-") == -1){
+            baren.setName(baren.getName() + " - " + baren.getDistance() + "meter");
         }
-        protected void onPostExecute() {
-        //    beerFrag.barNames = barNames;
+        else{
+            baren.setName(baren.getName().substring(0, baren.getName().indexOf("-")-1)
+                    + "- " + baren.getDistance() + "meter");
         }
+
+
+
     }
 
     public int afstandsberegner(double lat, double longti) {
@@ -319,6 +291,16 @@ public class MainActivity extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.SEND_SMS},
                     SEND_SMS_PERMISSION_REQUEST);
+        }
+    }
+
+    public void getPermissionToTrackUser(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
         }
     }
     public ArrayList<Bar> ReadFile() throws IOException {
