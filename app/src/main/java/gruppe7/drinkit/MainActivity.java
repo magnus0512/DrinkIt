@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < beerBars.size(); i++) {
             //barFrag.barNames.add(beerBars.get(i).getName());
             barFrag.bars.add(beerBars.get(i));
-            barFrag.listFrags.get(i);
         }
 
         // Set default screen to a BeerFragment (should probably be changed to Coffee)
@@ -397,39 +396,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    public boolean isOpen (Bar bar){
-        Calendar curDate = Calendar.getInstance();
-        int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
-        if (bar.getOpen().equals("Altid åben")){
-            return true;
-        }
-        else if (bar.getOpen().equals("fredagsåbent")){
-            if(dayOfWeek !=Calendar.FRIDAY){
-                return false;
-            }
-        }else if(bar.getOpen().equals("Hverdage")){
-            if(dayOfWeek >=(Calendar.MONDAY)&&dayOfWeek<=Calendar.FRIDAY){
-                return false;
-            }
-        }
-        String[] openArray = bar.getOpen().split(":");
-        String[] closedArray = bar.getOpen().split(":");
-        int openHours = Integer.parseInt(openArray[0]);
-        int openMin = Integer.parseInt(openArray[1]);
-        int openTimeSec = openHours * 360 + openMin * 60;
 
-        int closedHours = Integer.parseInt(closedArray[0]);
-        int closedMin = Integer.parseInt(closedArray[1]);
-        int closedTimeSec = closedHours * 360 + closedMin * 60;
-
-        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 360 + curDate.get(Calendar.MINUTE) * 60;
-        curDate.get(Calendar.MINUTE);
-
-        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
-            return true;
-        }
-        return false;
-    }
     public static void sortPrice(ArrayList<Bar> bars ) {
         for(int i = 0; i<bars.size(); i++){
             bars.get(i).setSortBy("price");

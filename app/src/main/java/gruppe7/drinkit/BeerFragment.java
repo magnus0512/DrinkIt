@@ -3,6 +3,7 @@ package gruppe7.drinkit;
 /**
  * Created by namanhnguyen on 14/06/16.
  */
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BeerFragment extends Fragment {
     ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
@@ -40,6 +42,9 @@ public class BeerFragment extends Fragment {
             ListItemFragment listItemFrag = new ListItemFragment();
             //listItemFrag.barName = bars.get(i).getName();
             listItemFrag.bar = bars.get(i);
+            if (listItemFrag.bar.isOpen()){
+                listItemFrag.barNameButton.setTextColor(Color.GRAY);
+            }
             listFrags.add(listItemFrag);
             childFragTrans.add(R.id.list_container_beer, listItemFrag);
             childFragTrans.addToBackStack(null);
@@ -49,4 +54,5 @@ public class BeerFragment extends Fragment {
 
         return rootView;
     }
+
 }
