@@ -1,5 +1,7 @@
 package gruppe7.drinkit;
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 /**
@@ -20,6 +22,7 @@ public class Bar implements Comparable<Bar> {
     private Integer distance;
     private String sortBy;
     public String buttonName;
+
 
     public String getSortBy() {
         return sortBy;
@@ -133,7 +136,9 @@ public class Bar implements Comparable<Bar> {
     @Override
     public int compareTo(Bar o) {
         if (o.sortBy.equals("price")) {
-            return this.price.compareTo(o.getPrice());
+            //sort by price of a single beer
+            return ((Double)(this.price/this.amount)).compareTo(o.getPrice()/o.getAmount());
+          //  return this.price.compareTo(o.getPrice());
         }
         return this.distance.compareTo(o.getDistance());
     }
@@ -142,31 +147,35 @@ public class Bar implements Comparable<Bar> {
         Calendar curDate = Calendar.getInstance();
         int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
 
-        if (getOpen().equals("Alle dage")){
+        if (getOpen().equals("Every day")){
             return true;
         }
-        else if (getOpen().equals("fredagsåbent")){
+        else if (getOpen().equals("Friday")){
             if(dayOfWeek !=Calendar.FRIDAY){
                 return false;
             }
-        }else if(getOpen().equals("Hverdage")){
-            if(dayOfWeek >=(Calendar.MONDAY)&&dayOfWeek<=Calendar.FRIDAY){
+        }else if(getOpen().equals("Weekdays")){
+            if(dayOfWeek>Calendar.FRIDAY){
                 return false;
             }
         }
         String[] openArray = getOpeningTime().split(":");
         String[] closedArray = getClosingTime().split(":");
         int openHours = Integer.parseInt(openArray[0]);
+        Log.d("lalal", ""+openHours);
         int openMin = Integer.parseInt(openArray[1]);
-        int openTimeSec = openHours * 360 + openMin * 60;
+        Log.d("lalal", ""+openMin);
+        int openTimeSec = openHours * 3600 + openMin * 60;
 
         int closedHours = Integer.parseInt(closedArray[0]);
+        Log.d("lalal", ""+closedHours);
         int closedMin = Integer.parseInt(closedArray[1]);
-        int closedTimeSec = closedHours * 360 + closedMin * 60;
+        Log.d("lalal", ""+closedMin);
+        int closedTimeSec = closedHours * 3600 + closedMin * 60;
 
-        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 360 + curDate.get(Calendar.MINUTE) * 60;
-        curDate.get(Calendar.MINUTE);
-
+        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 3600 + curDate.get(Calendar.MINUTE) * 60;
+        Log.d("lalal", ""+currentTimeSec);
+        Log.d("lalal", ""+curDate.get(Calendar.HOUR_OF_DAY));
         if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
             return true;
         }
