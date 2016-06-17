@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 
 final class SettingsOptions{
@@ -55,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
             { 55.780230, 12.516851} , //Maskinen
 
     };
-    ArrayList<Integer> barAfstande = new ArrayList<Integer>();
-    ArrayList<String> barNames = new ArrayList<String>();
-    //ArrayList<String> originale = new ArrayList<String>();
 
     ArrayList<Bar> beerBars = new ArrayList<Bar>();
     ArrayList<Bar> coffeeBars = new ArrayList<Bar>();
@@ -65,12 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
 
-    //BeerFragment beerFrag;
-    //CoffeeFragment coffeeFrag;
     BeerFragment barFrag;
-
-    //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-    //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
     FragmentManager fragMan;
     // Used to determine if Coffee-button has been clicked
@@ -83,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
 
-        //RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
 
         // Set up toolbar with title and settings button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,52 +99,10 @@ public class MainActivity extends AppCompatActivity {
         fragMan = getSupportFragmentManager();
         barFrag = new BeerFragment();
 
-        // TODO: Load location
-        // getUserLocation(); eller placer denne i loadBarNames
-        // TODO: Load barNames from Location
-        // loadBarNames();
-
-
-        // just for testing
-/*
-        barNames.add("Hegnet");
-        barNames.add("Diamanten");
-        barNames.add("Studentercaféen 325");
-        barNames.add("S Huset");
-        barNames.add("Døgn netto");
-        barNames.add("PF cafe i 302");
-        barNames.add("Etheren");
-        barNames.add("Diagonalen");
-        barNames.add("Maskinen");
-        */
-
-
-        //barFrag.barNames = barNames;
-
-        //originale = barNames;
+        // Show permissions
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
         getPermissionToTrackUser();
-
-       /* if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }*/
-
-        //new Distance().execute();
-
-        // Set the distances
-        // Do this in readFile
-/*
-        for(Bar e : beerBars){
-            Distance(e);
-        }
-        for(Bar e : coffeeBars){
-            Distance(e);
-        }*/
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
@@ -163,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         sortDistance(beerBars);
 
         for(int i = 0; i < beerBars.size(); i++) {
-            //barFrag.barNames.add(beerBars.get(i).getName());
             barFrag.bars.add(beerBars.get(i));
         }
 
@@ -193,24 +140,24 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!coffeeActive) {
                     //fragMan.popBackStack();
-                    Log.i(TAG, "popped BeerFragment");
+                    //Log.i(TAG, "popped BeerFragment");
 
                     // Sort list of coffee bars
-                   if(settingsOptions.sortBoolean){
+                   if (settingsOptions.sortBoolean) {
                         sortDistance(beerBars);
-                    }else{
-                        sortPrice(beerBars);}
+                    } else {
+                        sortPrice(beerBars);
+                   }
+
                     BeerFragment updatedBarFrag = new BeerFragment();
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < coffeeBars.size(); i++) {
-                        //updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
                         updatedBarFrag.bars.add(coffeeBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    //fragTrans.replace(R.id.list_upper_container, coffeeFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     //fragTrans.addToBackStack(null);
                     fragTrans.commit();
@@ -230,13 +177,14 @@ public class MainActivity extends AppCompatActivity {
                 if (coffeeActive) {
                     //fragMan.popBackStack();
                     coffeeActive = false;
-                    Log.i(TAG, "popped CoffeeFragment");
+                    //Log.i(TAG, "popped CoffeeFragment");
 
                     // Sort list of beer bars
-                   if(settingsOptions.sortBoolean){
+                   if (settingsOptions.sortBoolean) {
                         sortDistance(beerBars);
-                    }else{
-                        sortPrice(beerBars);}
+                    } else {
+                        sortPrice(beerBars);
+                   }
 
                     sortDistance(beerBars);
                     // Update ArrayList to beerbars
@@ -244,13 +192,11 @@ public class MainActivity extends AppCompatActivity {
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < beerBars.size(); i++) {
-                        //updatedBarFrag.barNames.add(beerBars.get(i).getName());
                         updatedBarFrag.bars.add(beerBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    //fragTrans.replace(R.id.list_upper_container, beerFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     //fragTrans.addToBackStack(null);
                     fragTrans.commit();
@@ -264,8 +210,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    // Husk at ændre til ContextMenu hvis settings skal være sådan i stedet
 
     // Opretter layout for toolbar
     @Override
@@ -288,7 +232,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: Lav en metode, måske her, som opdaterer ArrayListen i BeerFragment/CoffeeFragment
+    // TODO: Opret fragmenterne med settingsOptions.sortBoolean
+    // Dvs. hvis Price-sort er valgt, skal et nyt fragment laves med denne sortering.
+    // Benyt evt. den boolske værdi "coffeeActive"
+    // TODO: Husk at tage højde for "Show Only Open"
 
     @Override
     public void onResume() {
@@ -309,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void calculateDistance(Bar bar) {
+    private void displayDistance(Bar bar) {
 
         bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
         if (bar.getButtonName().indexOf("-") == -1) {
@@ -393,8 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     bar.setLocation(reader.readLine());
                     bar.setLatitude(Double.parseDouble(reader.readLine()));
                     bar.setLongitude(Double.parseDouble(reader.readLine()));
-                    //bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
-                    calculateDistance(bar);
+                    displayDistance(bar);
                     bar.setOpen(reader.readLine());
                     bar.setOpeningTime(reader.readLine());
                     bar.setClosingTime(reader.readLine());
@@ -419,8 +365,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i<bars.size(); i++){
             bars.get(i).setSortBy("price");
         }
-
-        //}
 
         Collections.sort(bars);
     }

@@ -38,12 +38,11 @@ public class ListItemFragment extends Fragment {
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
         barNameButton.setText(bar.getButtonName());
 
-        if(bar.isOpen()){
+        if (bar.isOpen()) {
             barNameButton.setTextColor(Color.BLACK);
-        }else{
+        } else {
             barNameButton.setTextColor(Color.GRAY);
         }
-        //barNameButton.setBackgroundColor(Color.LTGRAY);
 
         // Åbner dialog med bar-info
         barNameButton.setOnClickListener(new View.OnClickListener() {
@@ -63,8 +62,6 @@ public class ListItemFragment extends Fragment {
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //double i = 55.782378;
-                //double j = 12.517101;
                 double i = bar.getLatitude();
                 double j = bar.getLongitude();
 
