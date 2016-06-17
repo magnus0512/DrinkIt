@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     };;
     ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
+    ArrayList<String> originale = new ArrayList<String>();
     //{{        add("A");        add("B");        add("C");    }};
 
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Etheren");
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
-
+        originale = barNames;
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
         new Distance().execute();
+
         beerFrag.barNames = barNames;
 
 
@@ -237,20 +239,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-           // barNames.set(0, "test" + afstandsberegner(placeringer[0][0],placeringer[0][1]));
             for (int i = 0 ; i < barNames.size(); i++){
                 int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
                 if (firstRun){
                     barAfstande.add(afstand);
+                } else{
+                    barAfstande.set(i, afstand);
                 }
-                if (barNames.get(i).indexOf("-") == -1){
-                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
-                }
-                else{
-                    int index = barNames.get(i).indexOf("-");
-                    String nytBarNavn = barNames.get(i).substring(0, index-1);
-                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
-                }
+                barNames.set(i, originale.get(i) + "  -  " + afstand + " meter" );
+
             }
             /* Ekstra loop til kaffe stederne
             for (int i = 0 ; i < barNames.size(); i++){
@@ -302,7 +299,6 @@ public class MainActivity extends AppCompatActivity {
             return 0;
         }
     }
-
 
 
     public void getPermissionToReadUserContacts(){
