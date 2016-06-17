@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // just for testing
-
+/*
         barNames.add("Hegnet");
         barNames.add("Diamanten");
         barNames.add("Studentercaféen 325");
@@ -126,11 +126,13 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Etheren");
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
+        */
 
 
         //barFrag.barNames = barNames;
 
         //originale = barNames;
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -141,9 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
         //new Distance().execute();
 
-        // Add bar names to the list of buttons
-        // In this case, beer bar is the default screen
-        // Sort the bars first
+        // Set the distances
 
         for(Bar e : beerBars){
             Distance(e);
@@ -151,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
         for(Bar e : coffeeBars){
             Distance(e);
         }
+
+        // Add bar names to the list of buttons
+        // In this case, beer bar is the default screen
+        // Sort the bars first
 
         sortDistance(beerBars);
 
@@ -289,13 +293,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void Distance (Bar bar) {
+    private void Distance(Bar bar) {
 
         bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
-        if (bar.getName().indexOf("-") == -1) {
-            bar.setName(bar.getName() + "  -  " + bar.getDistance() + " meter");
+        if (bar.getButtonName().indexOf("-") == -1) {
+            bar.setButtonName(bar.getButtonName() + "  -  " + bar.getDistance() + " meter");
         } else {
-            bar.setName(bar.getName().substring(0, bar.getName().indexOf("-") - 1)
+            bar.setButtonName(bar.getButtonName().substring(0, bar.getButtonName().indexOf("-") - 1)
                     + "- " + bar.getDistance() + " meter");
         }
     }
@@ -368,10 +372,11 @@ public class MainActivity extends AppCompatActivity {
                 while ((str = reader.readLine()) != null) {
                     Bar bar = new Bar();
                     bar.setName(str);
+                    bar.buttonName = str;
                     bar.setLocation(reader.readLine());
                     bar.setLatitude(Double.parseDouble(reader.readLine()));
                     bar.setLongitude(Double.parseDouble(reader.readLine()));
-                    bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
+                    //bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
                     bar.setOpen(reader.readLine());
                     bar.setOpeningTime(reader.readLine());
                     bar.setClosingTime(reader.readLine());

@@ -17,6 +17,7 @@ public class Bar implements Comparable<Bar> {
     private int amount;
     private Integer distance;
     private String sortBy;
+    public String buttonName;
 
     public String getSortBy() {
         return sortBy;
@@ -105,6 +106,15 @@ public class Bar implements Comparable<Bar> {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setButtonName(String name) {
+        this.buttonName = name;
+    }
+
+    public String getButtonName() {
+        return buttonName;
+    }
+
 
     public String getName() {
         return name;

@@ -36,7 +36,7 @@ public class ListItemFragment extends Fragment {
         // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
 
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
-        barNameButton.setText(bar.getName());
+        barNameButton.setText(bar.getButtonName());
         barNameButton.setTextColor(Color.BLACK);
         //barNameButton.setBackgroundColor(Color.LTGRAY);
 
