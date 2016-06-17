@@ -115,7 +115,6 @@ public class Bar implements Comparable<Bar> {
         return buttonName;
     }
 
-
     public String getName() {
         return name;
     }
