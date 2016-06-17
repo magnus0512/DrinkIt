@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+/*
 public class CoffeeFragment extends Fragment {
     ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
     ArrayList<String> barNames = new ArrayList<String>();
@@ -42,14 +43,7 @@ public class CoffeeFragment extends Fragment {
         childFragTrans.add(R.id.list_container_coffee, listItemFrag2);
         childFragTrans.addToBackStack(null);
 
-        /*
-        for (int i = 0; i < barNames.size(); i++) {
-            ListItemFragment listItemFrag = new ListItemFragment();
-            listItemFrag.barName = barNames.get(i);
-            listFrags.add(listItemFrag);
-            childFragTrans.add(R.id.list_container_beer, listItemFrag);
-            childFragTrans.addToBackStack(null);
-        }*/
+
 
         childFragTrans.commit();
 
@@ -57,3 +51,4 @@ public class CoffeeFragment extends Fragment {
         return rootView;
     }
 }
+*/

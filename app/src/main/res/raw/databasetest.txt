@@ -1,6 +1,5 @@
 324 Kaffeautomat
 B324
-KAFFE
 55.783810
 12.518420
 Alle dage
@@ -8,9 +7,9 @@ Altid åben
 Altid åben
 12
 1
+KAFFE
 Etheren
 B324
-ØL
 55.783810
 12.518420
 Fredag
@@ -18,9 +17,9 @@ Altid åben
 Altid åben
 24
 2
+ØL
 322 Kaffeautomat
 B324
-KAFFE
 55.783810
 12.518420
 Alle dage
@@ -28,9 +27,9 @@ Altid åben
 Altid åben
 11
 1
+KAFFE
 324 Kaffeautomat
 B324
-KAFFE
 55.783810
 12.518420
 Whatever
@@ -38,3 +37,4 @@ Altid åben
 Altid åben
 17
 1
+KAFFE

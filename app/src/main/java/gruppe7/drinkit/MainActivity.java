@@ -64,46 +64,55 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<String> originale = new ArrayList<String>();
-    ArrayList<Bar> coffeeBars;
-    ArrayList<Bar> beerBars;
 
-    //{{        add("A");        add("B");        add("C");    }};
+    ArrayList<Bar> beerBars = new ArrayList<Bar>();
+    ArrayList<Bar> coffeeBars = new ArrayList<Bar>();
 
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
 
-    BeerFragment beerFrag;
-    CoffeeFragment coffeeFrag;
+    //BeerFragment beerFrag;
+    //CoffeeFragment coffeeFrag;
+    BeerFragment barFrag;
 
     //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
     FragmentManager fragMan;
+    // Used to determine if Coffee-button has been clicked
+    // so that the screen reverts to Beer-fragment
     boolean coffeeActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i(TAG,"entered OnCreate");
 
         //RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
 
+        // Set up toolbar with title and settings button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(APP_TITLE);
         toolbar.setBackgroundColor(orangeColor);
         toolbar.setTitleTextColor(TITLE_COLOR);
-        //toolbar.setBackgroundColor(getResources().getColor(R.color.orange));
         setSupportActionBar(toolbar);
 
-        fragMan = getSupportFragmentManager();
-        beerFrag = new BeerFragment();
+        // Initialise list of bars in the two ArrayLists
+        try {
+            readFile(coffeeBars, beerBars);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Log.i(TAG,"entered OnCreate");
+        fragMan = getSupportFragmentManager();
+        barFrag = new BeerFragment();
 
         // TODO: Load location
         // getUserLocation(); eller placer denne i loadBarNames
         // TODO: Load barNames from Location
         // loadBarNames();
+
 
         // just for testing
         barNames.add("Hegnet");
@@ -115,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Etheren");
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
+
+        //barFrag.barNames = barNames;
+
         originale = barNames;
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
@@ -123,22 +135,24 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
         }
-        new Distance().execute();
-        for(int i = 0; i<beerBars.size(); i++) {
-            beerFrag.barNames.add(beerBars.get(i).getName());
+
+        //new Distance().execute();
+
+        // Add bar names to the list of buttons
+        // In this case, beer bar is the default screen
+        // Sort the bars first
+
+        sortDistance(beerBars);
+
+        for(int i = 0; i < beerBars.size(); i++) {
+            barFrag.barNames.add(beerBars.get(i).getName());
         }
-
-
-        coffeeFrag = new CoffeeFragment();
 
         // Set default screen to a BeerFragment (should probably be changed to Coffee)
         FragmentTransaction fragTrans = fragMan.beginTransaction();
-        fragTrans.add(R.id.list_upper_container, beerFrag);
+        fragTrans.add(R.id.list_upper_container, barFrag);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
-
-        // Used to determine if Coffee-button has been clicked
-        // so that the screen reverts to Beer-fragment
 
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
@@ -163,9 +177,20 @@ public class MainActivity extends AppCompatActivity {
                     fragMan.popBackStack();
                     Log.i(TAG, "popped BeerFragment");
 
+                    // Sort list of coffee bars
+                    sortDistance(coffeeBars);
 
+                    BeerFragment updatedBarFrag = new BeerFragment();
+
+                    // Add bar names to the list of buttons
+                    for(int i = 0; i < coffeeBars.size(); i++) {
+                        updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
+                    }
+
+                    // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    fragTrans.replace(R.id.list_upper_container, coffeeFrag);
+                    //fragTrans.replace(R.id.list_upper_container, coffeeFrag);
+                    fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
@@ -186,10 +211,21 @@ public class MainActivity extends AppCompatActivity {
                     coffeeActive = false;
                     Log.i(TAG, "popped CoffeeFragment");
 
+                    // Sort list of beer bars
+                    sortDistance(beerBars);
+
+                    // Update ArrayList to beerbars
+                    BeerFragment updatedBarFrag = new BeerFragment();
+
+                    // Add bar names to the list of buttons
+                    for(int i = 0; i < beerBars.size(); i++) {
+                        updatedBarFrag.barNames.add(beerBars.get(i).getName());
+                    }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    fragTrans.replace(R.id.list_upper_container, beerFrag);
+                    //fragTrans.replace(R.id.list_upper_container, beerFrag);
+                    fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
@@ -231,13 +267,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        beerFrag.barNames = barNames;
+        //beerFrag.barNames = barNames;
+        barFrag.barNames = barNames;
         // barNames has been updated by ..... (sorting algorithm)
-/*
-        barNames.add("Hello");
-        barNames.add("out");
-        barNames.add("there");
-*/
 
         //beerFrag.barNames = barNames;
 
@@ -281,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
         //    beerFrag.barNames = barNames;
         }
     }
+
+
 
     public int afstandsberegner(double lat, double longti) {
 
@@ -338,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // TODO: Sæt felterne coffeeBars og beerBars (ArrayLists)
-    public void readFile(ArrayList<Bar> coffeeBars, ArrayList<Bar> beerBars ) throws IOException {
+    public void readFile(ArrayList<Bar> coffeeBars, ArrayList<Bar> beerBars) throws IOException {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
@@ -361,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
                         beerBars.add(bar);
                     } else{
                        coffeeBars.add(bar);
-                    } 
+                    }
                 }
 
 
