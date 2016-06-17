@@ -21,11 +21,7 @@ public class BeerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.tab_fragment_beer, container, false);
-/*
-        barNames.add("Hi");
-        barNames.add("There");
-        barNames.add("Mate");
-*/
+
         FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
 
@@ -49,12 +45,6 @@ public class BeerFragment extends Fragment {
 
         childFragTrans.commit();
 
-/*
-        for (int i = 0; i < listFrags.size(); i++) {
-            ListItemFragment listItemFrag = listFrags.get(i);
-            listItemFrag.setBarName(barNames.get(i));
-        }
-*/
         return rootView;
     }
 }
