@@ -144,13 +144,14 @@ public class MainActivity extends AppCompatActivity {
         //new Distance().execute();
 
         // Set the distances
-
+        // Do this in readFile
+/*
         for(Bar e : beerBars){
             Distance(e);
         }
         for(Bar e : coffeeBars){
             Distance(e);
-        }
+        }*/
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
@@ -293,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void Distance(Bar bar) {
+    private void calculateDistance(Bar bar) {
 
         bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
         if (bar.getButtonName().indexOf("-") == -1) {
@@ -372,11 +373,12 @@ public class MainActivity extends AppCompatActivity {
                 while ((str = reader.readLine()) != null) {
                     Bar bar = new Bar();
                     bar.setName(str);
-                    bar.buttonName = str;
+                    bar.setButtonName(str);
                     bar.setLocation(reader.readLine());
                     bar.setLatitude(Double.parseDouble(reader.readLine()));
                     bar.setLongitude(Double.parseDouble(reader.readLine()));
                     //bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
+                    calculateDistance(bar);
                     bar.setOpen(reader.readLine());
                     bar.setOpeningTime(reader.readLine());
                     bar.setClosingTime(reader.readLine());

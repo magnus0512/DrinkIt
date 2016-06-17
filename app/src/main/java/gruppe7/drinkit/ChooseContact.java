@@ -48,8 +48,6 @@ public class ChooseContact extends AppCompatActivity {
 
     final private static String APP_TITLE = "DTU DrinkIt";
 
-
-
     FragmentManager fragmentManager;
     ChooseContactFragment chooseContactFragment;
 
@@ -102,11 +100,20 @@ public class ChooseContact extends AppCompatActivity {
 
                 if (0 != chosenNumbers.size()) {
 
+                    Bundle extras = getIntent().getExtras();
+
+                    String barName = "";
+
+                    if(extras != null){
+                        barName = extras.getString("custom extra");
+                    }
+
+
                     PendingIntent pi = PendingIntent.getActivity(ChooseContact.this, 0,
                             new Intent(ChooseContact.this, MainActivity.class), 0);
                     SmsManager sms = SmsManager.getDefault();
                     for(int j = 0; j<chosenNumbers.size(); j++){
-                        sms.sendTextMessage(chosenNumbers.get(j), null, "hey come join me", pi, null);
+                        sms.sendTextMessage(chosenNumbers.get(j), null, "Hey come join me at " + barName + "!!", pi, null);
                     }
 
                     Toast.makeText(ChooseContact.this, "SMS send",

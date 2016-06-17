@@ -58,7 +58,7 @@ public class AlertDialogFragment extends DialogFragment {
 
 
                                 Intent intent = new Intent(getActivity(), ChooseContact.class);
-                                intent.putExtra("custom ekstra", bar.getName());
+                                intent.putExtra("custom extra", bar.getName());
                                 startActivity(intent);
 
 
