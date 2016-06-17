@@ -128,7 +128,7 @@ Hverdage
 6
 1
 KAFFE
-S-huset
+S huset
 B101E
 55.786488
 12.525640
@@ -138,7 +138,7 @@ fredagsåbent
 25
 2
 ØL
-S-huset
+S huset
 B101E
 55.786488
 12.525640

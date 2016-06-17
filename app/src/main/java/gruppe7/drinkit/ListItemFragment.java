@@ -60,6 +60,7 @@ public class ListItemFragment extends Fragment {
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 double i = 55.782378;
                 double j = 12.517101;
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
