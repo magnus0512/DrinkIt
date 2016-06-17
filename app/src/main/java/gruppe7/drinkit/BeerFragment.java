@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class BeerFragment extends Fragment {
     ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
     ArrayList<String> barNames = new ArrayList<String>();
+    ArrayList<Bar> bars = new ArrayList<Bar>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class BeerFragment extends Fragment {
         for (int i = 0; i < barNames.size(); i++) {
             ListItemFragment listItemFrag = new ListItemFragment();
             listItemFrag.barName = barNames.get(i);
+            listItemFrag.bar = bars.get(i);
             listFrags.add(listItemFrag);
             childFragTrans.add(R.id.list_container_beer, listItemFrag);
             childFragTrans.addToBackStack(null);

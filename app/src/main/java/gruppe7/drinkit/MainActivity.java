@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             { 55.789282, 12.525072} , //Diagonalen
             { 55.780230, 12.516851} , //Maskinen
 
-    };;
+    };
     ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<String> originale = new ArrayList<String>();
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // just for testing
+
         barNames.add("Hegnet");
         barNames.add("Diamanten");
         barNames.add("Studentercaféen 325");
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
         barNames.add("Diagonalen");
         barNames.add("Maskinen");
 
-        //barFrag.barNames = barNames;
+
+        barFrag.barNames = barNames;
 
         originale = barNames;
         if (ContextCompat.checkSelfPermission(this,
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-        //new Distance().execute();
+        new Distance().execute();
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
@@ -146,12 +148,13 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 0; i < beerBars.size(); i++) {
             barFrag.barNames.add(beerBars.get(i).getName());
+            barFrag.bars.add(beerBars.get(i));
         }
 
         // Set default screen to a BeerFragment (should probably be changed to Coffee)
         FragmentTransaction fragTrans = fragMan.beginTransaction();
         fragTrans.add(R.id.list_upper_container, barFrag);
-        fragTrans.addToBackStack(null);
+        //fragTrans.addToBackStack(null);
         fragTrans.commit();
 
         getPermissionToReadUserContacts();
@@ -174,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 // Install coffeeFragment
 
                 if (!coffeeActive) {
-                    fragMan.popBackStack();
+                    //fragMan.popBackStack();
                     Log.i(TAG, "popped BeerFragment");
 
                     // Sort list of coffee bars
@@ -185,13 +188,14 @@ public class MainActivity extends AppCompatActivity {
                     // Add bar names to the list of buttons
                     for(int i = 0; i < coffeeBars.size(); i++) {
                         updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
+                        updatedBarFrag.bars.add(coffeeBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
                     //fragTrans.replace(R.id.list_upper_container, coffeeFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
-                    fragTrans.addToBackStack(null);
+                    //fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
                     beerButton.setBackgroundColor(orangeColor);
@@ -207,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (coffeeActive) {
-                    fragMan.popBackStack();
+                    //fragMan.popBackStack();
                     coffeeActive = false;
                     Log.i(TAG, "popped CoffeeFragment");
 
@@ -220,13 +224,14 @@ public class MainActivity extends AppCompatActivity {
                     // Add bar names to the list of buttons
                     for(int i = 0; i < beerBars.size(); i++) {
                         updatedBarFrag.barNames.add(beerBars.get(i).getName());
+                        updatedBarFrag.bars.add(beerBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
                     //fragTrans.replace(R.id.list_upper_container, beerFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
-                    fragTrans.addToBackStack(null);
+                    //fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
                     coffeeButton.setBackgroundColor(orangeColor);
@@ -267,12 +272,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //beerFrag.barNames = barNames;
-        barFrag.barNames = barNames;
-        // barNames has been updated by ..... (sorting algorithm)
 
-        //beerFrag.barNames = barNames;
-
+        if (coffeeActive) {
+            barFrag.bars = coffeeBars;
+        } else {
+            barFrag.bars = beerBars;
+        }
     }
 
 
@@ -446,129 +451,4 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(bars);
     }
 
-
-    public static class Bar implements Comparable<Bar> {
-
-        private String name;
-        private String openingTime;
-        private Double price;
-        private String closingTime;
-        private String location;
-        private double latitude;
-        private double longitude;
-        private String open;
-        private String type;
-        private int amount;
-        private Integer distance;
-        private String sortBy;
-
-        public String getSortBy() {
-            return sortBy;
-        }
-
-        public void setSortBy(String sortBy) {
-            this.sortBy = sortBy;
-        }
-
-
-        public int getDistance() {
-            return distance;
-        }
-
-        public void setDistance(Integer distance) {
-            this.distance = distance;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public void setAmount(int amount) {
-            this.amount = amount;
-        }
-
-        public String getOpen() {
-            return open;
-        }
-
-        public void setOpen(String open) {
-            this.open = open;
-        }
-
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(double longitude) {
-            this.longitude = longitude;
-        }
-
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(double latitude) {
-            this.latitude = latitude;
-        }
-
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getLocation() {
-            return location;
-        }
-
-        public void setLocation(String location) {
-            this.location = location;
-        }
-
-        public void setClosingTime(String closingTime) {
-            this.closingTime = closingTime;
-        }
-
-        public String getClosingTime() {
-            return closingTime;
-        }
-
-        public void setOpeningTime(String openingTime) {
-            this.openingTime = openingTime;
-        }
-
-        public String getOpeningTime() {
-            return openingTime;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setPrice(Double price) {
-            this.price = price;
-        }
-
-        public Double getPrice() {
-            return price;
-        }
-
-
-        @Override
-        public int compareTo(Bar o) {
-            if (o.sortBy.equals("price")) {
-                return this.price.compareTo(o.getPrice());
-            }
-            return this.distance.compareTo(o.getDistance());
-        }
-    }
 }

@@ -27,6 +27,7 @@ public class ListItemFragment extends Fragment {
     Button barNameButton;
     Button findButton;
     String barName = "testing";
+    Bar bar;
 
 
 
@@ -41,29 +42,31 @@ public class ListItemFragment extends Fragment {
         barNameButton.setTextColor(Color.BLACK);
         //barNameButton.setBackgroundColor(Color.LTGRAY);
 
-        // TODO: Open Dialog
+        // Åbner dialog med bar-info
         barNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 AlertDialogFragment dialog = AlertDialogFragment.newInstance();
+                dialog.bar = bar;
                 dialog.show(getActivity().getFragmentManager(), "AlertDialogFragment");
 
             }
         });
 
-        // TODO: Open Google Maps
-        // Få fat i geo adresse
-        // Lav en intent?
+        // Åben Google Maps via geo adresse
         findButton = (Button) listItemView.findViewById(R.id.barFind);
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double i = 55.782378;
-                double j = 12.517101;
+                //double i = 55.782378;
+                //double j = 12.517101;
+                double i = bar.getLatitude();
+                double j = bar.getLongitude();
+
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?&daddr="+i+", " + j));
+                        Uri.parse("http://maps.google.com/maps?&daddr=" + i + ", " + j));
                 startActivity(intent);
             }
         });
@@ -77,6 +80,10 @@ public class ListItemFragment extends Fragment {
         barNameButton.setText(name);
 
     }
+
+    // OBS der er lavet en separat fil til AlertDialogFragment
+
+    /*
     public static class AlertDialogFragment extends DialogFragment {
         String titel = "Titel";
         String openHours = "Open Hours";
@@ -123,6 +130,12 @@ public class ListItemFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(
                                         final DialogInterface dialog, int id) {
+                                    double i = bar.getLatitude();
+                                    double j = bar.getLongitude();
+
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                            Uri.parse("http://maps.google.com/maps?&daddr=" + i + ", " + j));
+                                    startActivity(intent);
 
                                 }
                             })
@@ -130,7 +143,7 @@ public class ListItemFragment extends Fragment {
         }
 
     }
-
+*/
 
 }
 
