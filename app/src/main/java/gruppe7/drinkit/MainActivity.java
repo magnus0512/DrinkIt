@@ -33,8 +33,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     final private static String TAG = "MainActivity";
@@ -313,6 +319,211 @@ public class MainActivity extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.SEND_SMS},
                     SEND_SMS_PERMISSION_REQUEST);
+        }
+    }
+    public ArrayList<Bar> ReadFile() throws IOException {
+        ArrayList<Bar> bars = new ArrayList<>();
+        String str;
+        StringBuffer buf = new StringBuffer();
+        try {
+            InputStream is = this.getResources().openRawResource(R.raw.databasetest);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            if (is != null) {
+                while ((str = reader.readLine()) != null) {
+                    Bar bar = new Bar();
+                    bar.setName(str);
+                    bar.setLocation(reader.readLine());
+                    bar.setDrinkType(reader.readLine());
+                    bar.setLatitude(Double.parseDouble(reader.readLine()));
+                    bar.setLongitude(Double.parseDouble(reader.readLine()));
+                    bar.setOpen(reader.readLine());
+                    bar.setOpeningTime(reader.readLine());
+                    bar.setClosingTime(reader.readLine());
+                    bar.setPrice(Double.parseDouble(reader.readLine()));
+                    bar.setAmount(Integer.parseInt(reader.readLine()));
+                    bars.add(bar);
+
+                }
+
+
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bars;
+    }
+    public boolean isOpen (Bar bar){
+        if (bar.getOpen().equals("Altid åben")){
+            return true;
+        }
+        String[] openArray = bar.getOpen().split(":");
+        String[] closedArray = bar.getOpen().split(":");
+        int openHours = Integer.parseInt(openArray[0]);
+        int openMin = Integer.parseInt(openArray[1]);
+        int openTimeSec = openHours * 360 + openMin * 60;
+
+        int closedHours = Integer.parseInt(closedArray[0]);
+        int closedMin = Integer.parseInt(closedArray[1]);
+        int closedTimeSec = closedHours * 360 + closedMin * 60;
+
+        Calendar c = Calendar.getInstance();
+        int currentTimeSec = c.get(Calendar.HOUR_OF_DAY) * 360 + c.get(Calendar.MINUTE) * 60;
+        c.get(Calendar.MINUTE);
+
+        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
+            return true;
+        }
+        return false;
+    }
+    public static void sortPrice(ArrayList<Bar> bars ) {
+        for(int i = 0; i<bars.size(); i++){
+            bars.get(i).setSortBy("price");
+        }
+
+        //}
+
+        Collections.sort(bars);
+    }
+
+    public static void sortDistance(ArrayList<Bar> bars) {
+        for(int i = 0; i<bars.size(); i++){
+            bars.get(i).setSortBy("");
+        }
+
+        Collections.sort(bars);
+    }
+    public static class Bar implements Comparable<Bar> {
+
+        private String name;
+        private String openingTime;
+        private Double price;
+        private String closingTime;
+        private String location;
+        private String drinkType;
+        private double latitude;
+        private double longitude;
+        private String open;
+        private String type;
+        private int amount;
+        private Integer distance;
+        private String sortBy = "price";
+
+        public String getSortBy() {
+            return sortBy;
+        }
+
+        public void setSortBy(String sortBy) {
+            this.sortBy = sortBy;
+        }
+
+
+        public int getDistance() {
+            return distance;
+        }
+
+        public void setDistance(Integer distance) {
+            this.distance = distance;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        public String getOpen() {
+            return open;
+        }
+
+        public void setOpen(String open) {
+            this.open = open;
+        }
+
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
+
+        public String getDrinkType() {
+            return drinkType;
+        }
+
+        public void setDrinkType(String drinkType) {
+            this.drinkType = drinkType;
+        }
+
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public void setClosingTime(String closingTime) {
+            this.closingTime = closingTime;
+        }
+
+        public String getClosingTime() {
+            return closingTime;
+        }
+
+        public void setOpeningTime(String openingTime) {
+            this.openingTime = openingTime;
+        }
+
+        public String getOpeningTime() {
+            return openingTime;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setPrice(Double price) {
+            this.price = price;
+        }
+
+        public Double getPrice() {
+            return price;
+        }
+
+
+        @Override
+        public int compareTo(Bar o) {
+            if (o.sortBy.equals("price")) {
+                return this.price.compareTo(o.getPrice());
+            }
+            return this.distance.compareTo(o.getDistance());
         }
     }
 
