@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.content.Context;
 import android.location.LocationManager;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             { 55.780230, 12.516851} , //Maskinen
 
     };;
-    ArrayList<Integer> barAfstande = new ArrayList<Integer>();
     ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<String> originale = new ArrayList<String>();
 
@@ -144,8 +144,9 @@ public class MainActivity extends AppCompatActivity {
         for(Bar e : beerBars){
             Distance(e);
         }
-
-
+        for(Bar e : coffeeBars){
+            Distance(e);
+        }
 
         sortDistance(beerBars);
 
