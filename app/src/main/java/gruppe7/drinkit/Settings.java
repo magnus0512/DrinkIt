@@ -22,6 +22,7 @@ public class Settings extends Activity {
     private CheckBox OpenOnlyCheckBox;
     private Button OkButton, CancelButton;
     private RadioGroup SortRadioGroup, SearchRadioGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
