@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.content.Context;
 import android.location.LocationManager;
@@ -138,11 +139,18 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-        new Distance().execute();
+        //new Distance().execute();
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
         // Sort the bars first
+
+        for(Bar e : beerBars){
+            Distance(e);
+        }
+        for(Bar e : coffeeBars){
+            Distance(e);
+        }
 
         sortDistance(beerBars);
 
@@ -281,41 +289,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class Distance extends AsyncTask<Void, Void, Void>{
+    private void Distance (Bar bar) {
 
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            for (int i = 0 ; i < barNames.size(); i++){
-                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
-                if (firstRun){
-                    barAfstande.add(afstand);
-                } else{
-                    barAfstande.set(i, afstand);
-                }
-                barNames.set(i, originale.get(i) + "  -  " + afstand + " meter" );
-
-            }
-            /* Ekstra loop til kaffe stederne
-            for (int i = 0 ; i < barNames.size(); i++){
-                int afstand = afstandsberegner(placeringer[i][0],placeringer[i][1]);
-                if (firstRun){
-                    barAfstande.add(afstand);
-                }
-                if (barNames.get(i).indexOf("-") == -1){
-                    barNames.set(i, barNames.get(i) + "  -  " + afstand + " meter" );
-                }
-                else{
-                    int index = barNames.get(i).indexOf("-");
-                    String nytBarNavn = barNames.get(i).substring(0, index-1);
-                    barNames.set(i, nytBarNavn + "- " + afstand + " meter");
-                }
-            } */
-            firstRun = false;
-            return null;
-        }
-        protected void onPostExecute() {
-        //    beerFrag.barNames = barNames;
+        bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
+        if (bar.getName().indexOf("-") == -1) {
+            bar.setName(bar.getName() + "  -  " + bar.getDistance() + " meter");
+        } else {
+            bar.setName(bar.getName().substring(0, bar.getName().indexOf("-") - 1)
+                    + "- " + bar.getDistance() + " meter");
         }
     }
 
