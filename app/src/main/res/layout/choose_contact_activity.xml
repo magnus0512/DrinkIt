@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
-        android:elevation="2dp"
+        android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -23,25 +23,23 @@
         android:layout_height="wrap_content"
         android:weightSum="2"
         android:orientation="horizontal"
-        android:layout_below="@id/toolbar">
-        <Button android:id="@+id/coffeeButton"
-            android:text="Coffee"
+        android:layout_below="@+id/toolbar">
+        <Button android:id="@+id/OkContactButton"
+            android:text="Send message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
-        <Button android:id="@+id/beerButton"
-            android:text="Beer"
+        <Button android:id="@+id/cancelContactButton"
+            android:text="Cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1"/>
     </LinearLayout>
 
-    <FrameLayout android:id="@+id/list_upper_container"
+    <FrameLayout android:id="@+id/list_upper_container_contact"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/outer_linear_layout"></FrameLayout>
+        android:layout_below="@+id/outer_linear_layout"></FrameLayout>
 
 </RelativeLayout>

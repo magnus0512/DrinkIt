@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class CoffeeFragment extends Fragment {
-    ArrayList<ListItemFragment> listFrags;
-    ArrayList<String> barNames;
+    ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
+    ArrayList<String> barNames = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class CoffeeFragment extends Fragment {
         // TODO: Undersøg om OnSaveInstanceState kan bruges
         // måske sammen med ArrayListen barNames
 
-        // for (int i = 0; i < names.size(); i++) {
+
         ListItemFragment listItemFrag1 = new ListItemFragment();
         //listFrags.add(listItemFrag);
         childFragTrans.add(R.id.list_container_coffee, listItemFrag1);
@@ -42,7 +42,14 @@ public class CoffeeFragment extends Fragment {
         childFragTrans.add(R.id.list_container_coffee, listItemFrag2);
         childFragTrans.addToBackStack(null);
 
-        // }
+        /*
+        for (int i = 0; i < barNames.size(); i++) {
+            ListItemFragment listItemFrag = new ListItemFragment();
+            listItemFrag.barName = barNames.get(i);
+            listFrags.add(listItemFrag);
+            childFragTrans.add(R.id.list_container_beer, listItemFrag);
+            childFragTrans.addToBackStack(null);
+        }*/
 
         childFragTrans.commit();
 

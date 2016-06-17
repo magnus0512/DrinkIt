@@ -1,14 +1,19 @@
 package gruppe7.drinkit;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +34,12 @@ public class ListItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listItemView = inflater.inflate(R.layout.list_item, container, false);
+        // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
 
         barNameButton = (Button) listItemView.findViewById(R.id.barName);
         barNameButton.setText(barName);
+        barNameButton.setTextColor(Color.BLACK);
+        //barNameButton.setBackgroundColor(Color.LTGRAY);
 
         // TODO: Open Dialog
         barNameButton.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +60,15 @@ public class ListItemFragment extends Fragment {
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                double i = 55.782378;
+                double j = 12.517101;
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?&daddr="+i+", " + j));
+                startActivity(intent);
             }
         });
 
-        // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
+
         return listItemView;
 
     }
@@ -94,6 +106,12 @@ public class ListItemFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(
                                         final DialogInterface dialog, int id) {
+
+
+
+                                    Intent intent = new Intent(getActivity(), ChooseContact.class);
+                                    startActivity(intent);
+
 
                                 }
                             })
