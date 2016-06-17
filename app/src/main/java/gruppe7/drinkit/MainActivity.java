@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                         beerBars.add(bar);
                     } else{
                        coffeeBars.add(bar);
-                    }
+                    } 
                 }
 
 
