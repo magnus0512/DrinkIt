@@ -526,6 +526,6 @@ public class MainActivity extends AppCompatActivity {
             return this.distance.compareTo(o.getDistance());
         }
     }
-
+ 
 
 }
