@@ -137,7 +137,13 @@ public class Bar implements Comparable<Bar> {
     public int compareTo(Bar o) {
         if (o.sortBy.equals("price")) {
             //sort by price of a single beer
-            return ((Double)(this.price/this.amount)).compareTo(o.getPrice()/o.getAmount());
+            int price = ((Double)(this.price/this.amount)).compareTo(o.getPrice()/o.getAmount());
+            // sort by distance, if price is the same
+            if (price!=0) {
+                return price;
+            } else{
+                return this.distance.compareTo(o.getDistance());
+            }
           //  return this.price.compareTo(o.getPrice());
         }
         return this.distance.compareTo(o.getDistance());

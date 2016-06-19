@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(TITLE_COLOR);
         setSupportActionBar(toolbar);
 
-       if(getIntent().getExtras() != null) {
+        if(getIntent().getExtras() != null) {
             settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
             settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
         }else{
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // In this case, beer bar is the default screen
         // Sort the bars first
 
-        sortDistance(beerBars);
+        sortPrice(beerBars);
 
         for(int i = 0; i < beerBars.size(); i++) {
             barFrag.bars.add(beerBars.get(i));
@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
                     //Log.i(TAG, "popped BeerFragment");
 
                     // Sort list of coffee bars
-                   if (settingsOptions.sortBoolean) {
-                        sortDistance(beerBars);
+                    if (settingsOptions.sortBoolean) {
+                        sortDistance(coffeeBars);
                     } else {
-                        sortPrice(beerBars);
-                   }
+                        sortPrice(coffeeBars);
+                    }
 
                     BeerFragment updatedBarFrag = new BeerFragment();
 
@@ -180,13 +180,12 @@ public class MainActivity extends AppCompatActivity {
                     //Log.i(TAG, "popped CoffeeFragment");
 
                     // Sort list of beer bars
-                   if (settingsOptions.sortBoolean) {
+                    if (settingsOptions.sortBoolean) {
                         sortDistance(beerBars);
                     } else {
                         sortPrice(beerBars);
-                   }
+                    }
 
-                    sortDistance(beerBars);
                     // Update ArrayList to beerbars
                     BeerFragment updatedBarFrag = new BeerFragment();
 
@@ -246,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             barFrag.bars = beerBars;
         }
-       if(getIntent().getExtras() != null) {
+        if(getIntent().getExtras() != null) {
             settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
             settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
         }else{
@@ -349,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                     if (reader.readLine().equals("ØL")) {
                         beerBars.add(bar);
                     } else{
-                       coffeeBars.add(bar);
+                        coffeeBars.add(bar);
                     }
                 }
 

@@ -40,7 +40,7 @@ public class AlertDialogFragment extends DialogFragment {
                 // Sætter titlen
                 .setTitle(bar.getName())
                 // Sætter info om bar
-                .setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " + bar.getClosingTime() + priser + bar.getAmount() + " kr." + lokation + bar.getLocation())
+                .setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " + bar.getClosingTime() + priser + bar.getAmount() + " for " +Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation())
                 // Gør det muligt at trykke tilbage
                 .setCancelable(true)
                 // Sætter "cancel"-knappen og lukker dialogboksen
