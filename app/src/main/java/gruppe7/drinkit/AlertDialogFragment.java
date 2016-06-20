@@ -25,10 +25,10 @@ import android.widget.Button;
  */
 
 public class AlertDialogFragment extends DialogFragment {
-    String titel = "Titel";
-    String openHours = "Open Hours";
-    String priser = "Priser";
-    String lokation = "Lokation";
+    // String titel = "Titel";
+    String openHours = "\n Open hours: ";
+    String priser = "\n Prices: ";
+    String lokation = "\n Location: ";
     Bar bar;
 
     public static AlertDialogFragment newInstance() {
@@ -37,36 +37,29 @@ public class AlertDialogFragment extends DialogFragment {
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-                //Sætter titlen
-                //Todo: hent titel
-                .setTitle("Diagonalen")
-                //Sætter info om bar
-                //Todo hent info
-                .setMessage(openHours +"\n"+ priser+ "\n" + lokation)
-                //gør det muligt at trykke tilbage
+                // Sætter titlen
+                .setTitle(bar.getName())
+                // Sætter info om bar
+                .setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " + bar.getClosingTime() + priser + bar.getAmount() + " for " +Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation())
+                // Gør det muligt at trykke tilbage
                 .setCancelable(true)
-                //Sætter "cancel"-kanppen; lukker dialogboksen
+                // Sætter "cancel"-knappen og lukker dialogboksen
                 .setNeutralButton(android.R.string.cancel, null)
 
-                //Sætter "share"-knappen
-                //Todo: tilføj share funktion
-                .setNegativeButton("share",
+                // Sætter "share"-knappen
+                .setNegativeButton("Share",
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     final DialogInterface dialog, int id) {
-
-
 
                                 Intent intent = new Intent(getActivity(), ChooseContact.class);
                                 intent.putExtra("custom extra", bar.getName());
                                 startActivity(intent);
 
-
                             }
                         })
 
-                //Sætter "find"-knappen
-                //Todo: Åben Maps med rute
+                // Sætter "find"-knappen
 
                 .setPositiveButton("Find",
                         new DialogInterface.OnClickListener() {

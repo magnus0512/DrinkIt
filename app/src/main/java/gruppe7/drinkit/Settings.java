@@ -4,6 +4,7 @@ package gruppe7.drinkit;
  * Created by Magnus on 14-06-2016.
  */
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -32,7 +33,7 @@ public class Settings extends Activity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("DTU DrinkIt");
         toolbar.setBackgroundColor(Color.rgb(250,150,0));
-        // Setup Listen-methods for buttoon
+        // Setup Listen-methods for buttons
         addListenerOkButton();
         addListenerCancelButton();
 
@@ -57,17 +58,25 @@ public class Settings extends Activity {
                 if (OpenOnlyCheckBox.isChecked()) {
                     result.append("Only Open :").append("On");
                     // TODO: Remove All Closed Locations from Tab
+                    Intent openIntent = new Intent(Settings.this, MainActivity.class);
+                    openIntent.putExtra("OpenBoolean", true);
                 }else{
                     result.append("Only Open :").append("Off");
                     // TODO: Add All Closed Locations to Tab
+                    Intent sortIntent = new Intent(Settings.this, MainActivity.class);
+                    sortIntent.putExtra("OpenBoolean", false);
                 }
 
                 if (sortId == R.id.DistanceRadiobutton) {
                     result.append("\n Distance :").append("Current");
                     // TODO: Set Sort Preference Distance
+                    Intent sortIntent = new Intent(Settings.this, MainActivity.class);
+                    sortIntent.putExtra("SortBoolean", true);
                 } else {
                     result.append("\n Price :").append("Current");
                     // TODO: Set Sort Preference Price
+                    Intent sortIntent = new Intent(Settings.this, MainActivity.class);
+                    sortIntent.putExtra("SortBoolean", false);
                 }
 
                 Toast.makeText(Settings.this, result.toString(),

@@ -18,6 +18,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/WelcomeTextView"
+        android:text="Welcome to DTU DrinkIt!"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/DisclaimTextView"
         android:text="Disclaimer: "
         />
@@ -66,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/OnlyOpenTextView"
-            android:text="Sort Only Open Locations" />
+            android:text="Show Only Open Locations" />
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
@@ -100,12 +106,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/madebyTextView"
-        android:text="Application made by:"
+        android:text="App Developers: "
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/creditsTextView"
-        android:text="Michelle, Kevin, Anna, Frederik, Assmund and Magnus"
+        android:text="Michelle, Kevin, Anna, Frederik, Asmund and Magnus"
         />
 </LinearLayout>

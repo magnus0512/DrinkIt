@@ -1,22 +1,15 @@
 package gruppe7.drinkit;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -27,21 +20,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.content.Context;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
+
+final class SettingsOptions{
+    public boolean sortBoolean = true, openBoolean = false;}
 
 public class MainActivity extends AppCompatActivity {
     final private static String TAG = "MainActivity";
@@ -49,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     final private int orangeColor = Color.rgb(250,150,0);
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
+    final private SettingsOptions settingsOptions = new SettingsOptions();
+
     private boolean firstRun = true;
     final private double[][] placeringer = {
             { 55.782378, 12.517101} , //Hegnet
@@ -62,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
             { 55.780230, 12.516851} , //Maskinen
 
     };
-    ArrayList<Integer> barAfstande = new ArrayList<Integer>();
-    ArrayList<String> barNames = new ArrayList<String>();
-    //ArrayList<String> originale = new ArrayList<String>();
 
     ArrayList<Bar> beerBars = new ArrayList<Bar>();
     ArrayList<Bar> coffeeBars = new ArrayList<Bar>();
@@ -72,12 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
 
-    //BeerFragment beerFrag;
-    //CoffeeFragment coffeeFrag;
     BeerFragment barFrag;
-
-    //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-    //String locationProvider = LocationManager.NETWORK_PROVIDER;
 
     FragmentManager fragMan;
     // Used to determine if Coffee-button has been clicked
@@ -90,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
 
-        //RelativeLayout frame = (RelativeLayout) findViewById(R.id.frame);
 
         // Set up toolbar with title and settings button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(orangeColor);
         toolbar.setTitleTextColor(TITLE_COLOR);
         setSupportActionBar(toolbar);
+
+        if(getIntent().getExtras() != null) {
+            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
+            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
+        }else{
+            settingsOptions.sortBoolean = true;
+            settingsOptions.openBoolean = false;}
 
         // Initialise list of bars in the two ArrayLists
         try {
@@ -109,61 +99,18 @@ public class MainActivity extends AppCompatActivity {
         fragMan = getSupportFragmentManager();
         barFrag = new BeerFragment();
 
-        // TODO: Load location
-        // getUserLocation(); eller placer denne i loadBarNames
-        // TODO: Load barNames from Location
-        // loadBarNames();
-
-
-        // just for testing
-/*
-        barNames.add("Hegnet");
-        barNames.add("Diamanten");
-        barNames.add("Studentercaféen 325");
-        barNames.add("S Huset");
-        barNames.add("Døgn netto");
-        barNames.add("PF cafe i 302");
-        barNames.add("Etheren");
-        barNames.add("Diagonalen");
-        barNames.add("Maskinen");
-        */
-
-
-        //barFrag.barNames = barNames;
-
-        //originale = barNames;
+        // Show permissions
         getPermissionToReadUserContacts();
         getPermissionToSendTexts();
         getPermissionToTrackUser();
-
-       /* if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }*/
-
-        //new Distance().execute();
-
-        // Set the distances
-        // Do this in readFile
-/*
-        for(Bar e : beerBars){
-            Distance(e);
-        }
-        for(Bar e : coffeeBars){
-            Distance(e);
-        }*/
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
         // Sort the bars first
 
-        sortDistance(beerBars);
+        sortPrice(beerBars);
 
         for(int i = 0; i < beerBars.size(); i++) {
-            //barFrag.barNames.add(beerBars.get(i).getName());
             barFrag.bars.add(beerBars.get(i));
         }
 
@@ -193,22 +140,24 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!coffeeActive) {
                     //fragMan.popBackStack();
-                    Log.i(TAG, "popped BeerFragment");
+                    //Log.i(TAG, "popped BeerFragment");
 
                     // Sort list of coffee bars
-                    sortDistance(coffeeBars);
+                    if (settingsOptions.sortBoolean) {
+                        sortDistance(coffeeBars);
+                    } else {
+                        sortPrice(coffeeBars);
+                    }
 
                     BeerFragment updatedBarFrag = new BeerFragment();
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < coffeeBars.size(); i++) {
-                        //updatedBarFrag.barNames.add(coffeeBars.get(i).getName());
                         updatedBarFrag.bars.add(coffeeBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    //fragTrans.replace(R.id.list_upper_container, coffeeFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     //fragTrans.addToBackStack(null);
                     fragTrans.commit();
@@ -228,23 +177,25 @@ public class MainActivity extends AppCompatActivity {
                 if (coffeeActive) {
                     //fragMan.popBackStack();
                     coffeeActive = false;
-                    Log.i(TAG, "popped CoffeeFragment");
+                    //Log.i(TAG, "popped CoffeeFragment");
 
                     // Sort list of beer bars
-                    sortDistance(beerBars);
+                    if (settingsOptions.sortBoolean) {
+                        sortDistance(beerBars);
+                    } else {
+                        sortPrice(beerBars);
+                    }
 
                     // Update ArrayList to beerbars
                     BeerFragment updatedBarFrag = new BeerFragment();
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < beerBars.size(); i++) {
-                        //updatedBarFrag.barNames.add(beerBars.get(i).getName());
                         updatedBarFrag.bars.add(beerBars.get(i));
                     }
 
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
-                    //fragTrans.replace(R.id.list_upper_container, beerFrag);
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
                     //fragTrans.addToBackStack(null);
                     fragTrans.commit();
@@ -258,8 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    // Husk at ændre til ContextMenu hvis settings skal være sådan i stedet
 
     // Opretter layout for toolbar
     @Override
@@ -282,7 +231,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: Lav en metode, måske her, som opdaterer ArrayListen i BeerFragment/CoffeeFragment
+    // TODO: Opret fragmenterne med settingsOptions.sortBoolean
+    // Dvs. hvis Price-sort er valgt, skal et nyt fragment laves med denne sortering.
+    // Benyt evt. den boolske værdi "coffeeActive"
+    // TODO: Husk at tage højde for "Show Only Open"
 
     @Override
     public void onResume() {
@@ -293,10 +245,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             barFrag.bars = beerBars;
         }
+        if(getIntent().getExtras() != null) {
+            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
+            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
+        }else{
+            settingsOptions.sortBoolean = true;
+            settingsOptions.openBoolean = false;}
+
     }
 
 
-    private void calculateDistance(Bar bar) {
+    private void displayDistance(Bar bar) {
 
         bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
         if (bar.getButtonName().indexOf("-") == -1) {
@@ -305,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
             bar.setButtonName(bar.getButtonName().substring(0, bar.getButtonName().indexOf("-") - 1)
                     + "- " + bar.getDistance() + " meter");
         }
+
     }
 
 
@@ -379,8 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     bar.setLocation(reader.readLine());
                     bar.setLatitude(Double.parseDouble(reader.readLine()));
                     bar.setLongitude(Double.parseDouble(reader.readLine()));
-                    //bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
-                    calculateDistance(bar);
+                    displayDistance(bar);
                     bar.setOpen(reader.readLine());
                     bar.setOpeningTime(reader.readLine());
                     bar.setClosingTime(reader.readLine());
@@ -389,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                     if (reader.readLine().equals("ØL")) {
                         beerBars.add(bar);
                     } else{
-                       coffeeBars.add(bar);
+                        coffeeBars.add(bar);
                     }
                 }
 
@@ -406,8 +365,6 @@ public class MainActivity extends AppCompatActivity {
             bars.get(i).setSortBy("price");
         }
 
-        //}
-
         Collections.sort(bars);
     }
 
@@ -418,38 +375,6 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.sort(bars);
     }
-    public boolean isOpen (Bar bar){
-        Calendar curDate = Calendar.getInstance();
-        int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
-        if (bar.getOpen().equals("Altid åben")){
-            return true;
-        }
-        else if (bar.getOpen().equals("fredagsåbent")){
-            if(dayOfWeek !=Calendar.FRIDAY){
-                return false;
-            }
-        }else if(bar.getOpen().equals("Hverdage")){
-            if(dayOfWeek >=(Calendar.MONDAY)&&dayOfWeek<=Calendar.FRIDAY){
-                return false;
-            }
-        }
-        String[] openArray = bar.getOpeningTime().split(":");
-        String[] closedArray = bar.getClosingTime().split(":");
-        int openHours = Integer.parseInt(openArray[0]);
-        int openMin = Integer.parseInt(openArray[1]);
-        int openTimeSec = openHours * 360 + openMin * 60;
 
-        int closedHours = Integer.parseInt(closedArray[0]);
-        int closedMin = Integer.parseInt(closedArray[1]);
-        int closedTimeSec = closedHours * 360 + closedMin * 60;
-
-        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 360 + curDate.get(Calendar.MINUTE) * 60;
-        curDate.get(Calendar.MINUTE);
-
-        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
-            return true;
-        }
-        return false;
-    }
 
 }
