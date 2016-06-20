@@ -37,9 +37,9 @@ public class ListItemFragment extends Fragment {
             public void onClick(View v) {
 
 
-                AlertDialogFragment dialog = AlertDialogFragment.newInstance();
+                InfoDialogFragment dialog = InfoDialogFragment.newInstance();
                 dialog.bar = bar;
-                dialog.show(getActivity().getFragmentManager(), "AlertDialogFragment");
+                dialog.show(getActivity().getFragmentManager(), "InfoDialogFragment");
 
             }
         });
@@ -58,6 +58,11 @@ public class ListItemFragment extends Fragment {
             }
         });
         return listItemView;
+
+    }
+
+    public void setBarName(String name) {
+        barNameButton.setText(name);
 
     }
 

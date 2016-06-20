@@ -27,15 +27,14 @@ import java.util.ArrayList;
  * Created by namanhnguyen on 17/06/16.
  */
 
-public class AlertDialogFragment extends DialogFragment {
-    // String titel = "Titel";
+public class InfoDialogFragment extends DialogFragment {
     String openHours = "\n Open hours: ";
     String priser = "\n Prices: ";
     String lokation = "\n Location: ";
     Bar bar;
 
-    public static AlertDialogFragment newInstance() {
-        return new AlertDialogFragment();
+    public static InfoDialogFragment newInstance() {
+        return new InfoDialogFragment();
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
