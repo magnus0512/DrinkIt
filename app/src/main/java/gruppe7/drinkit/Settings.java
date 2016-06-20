@@ -59,22 +59,18 @@ public class Settings extends Activity {
                 int sortId = SortRadioGroup.getCheckedRadioButtonId();
                 if (OpenOnlyCheckBox.isChecked()) {
                     result.append("Only Open :").append("On");
-                    // TODO: Remove All Closed Locations from Tab
                     optionsIntent.putExtra("OpenBoolean", true);
                 }else{
                     result.append("Only Open :").append("Off");
-                    // TODO: Add All Closed Locations to Tab
                     optionsIntent.putExtra("OpenBoolean", false);
                 }
 
                 if (sortId == R.id.DistanceRadiobutton) {
                     result.append("\n Distance :").append("Current");
-                    // TODO: Set Sort Preference Distance
                     optionsIntent.putExtra("SortBoolean", true);
                     Log.i("HEJ", "SETTINGS SORT TRUE");
                 } else {
                     result.append("\n Price :").append("Current");
-                    // TODO: Set Sort Preference Price
                     optionsIntent.putExtra("SortBoolean", false);
                     Log.i("HEJ", "SETTINGS SORT FALSE");
                 }

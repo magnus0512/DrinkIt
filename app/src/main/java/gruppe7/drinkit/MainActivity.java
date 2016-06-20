@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
     private static final int PICK_SETTINGS = 0 ;
+    private static final Boolean SORT_BOOLEAN = true;
+    private static final Boolean OPEN_BOOLEAN = false;
 
     BeerFragment barFrag;
 
@@ -98,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
             settingsOptions.sortBoolean = true;
             settingsOptions.openBoolean = false;}
 
+        if (savedInstanceState != null) {
+            settingsOptions.sortBoolean = savedInstanceState.getBoolean("SORT_BOOLEAN");
+            settingsOptions.openBoolean = savedInstanceState.getBoolean("OPEN_BOOLEAN");
+        }
         // Initialise list of bars in the two ArrayLists
         try {
             readFile(coffeeBars, beerBars);
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         // In this case, beer bar is the default screen
         // Sort the bars first
 
-        sortPrice(beerBars);
+        //sortPrice(beerBars);
 
         for(int i = 0; i < beerBars.size(); i++) {
             barFrag.bars.add(beerBars.get(i));
@@ -226,8 +233,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "Entered the onSaveInstanceState() method");
+        savedInstanceState.putBoolean("SORT_BOOLEAN", settingsOptions.sortBoolean);
+        savedInstanceState.putBoolean("OPEN_BOOLEAN", settingsOptions.openBoolean);
+        super.onSaveInstanceState(savedInstanceState);
 
-
+    }
     // Opretter layout for toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -272,6 +286,12 @@ public class MainActivity extends AppCompatActivity {
                 sortPrice(barFrag.bars);
                 Log.i(TAG, "Price");
 
+                SharedPreferences sharedPreferences = PreferenceManager
+                        .getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("CheckBoolean", settingsOptions.openBoolean);
+                editor.putBoolean("SortBoolean", settingsOptions.sortBoolean);
+                editor.commit();
             }
 
             // Update ArrayList to beerbars
