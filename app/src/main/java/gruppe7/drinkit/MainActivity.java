@@ -465,60 +465,32 @@ public class MainActivity extends AppCompatActivity {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
-            try {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
-                InputStream nyIs = url.openStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(nyIs));
-                if (nyIs != null) {
-                    while ((str = reader.readLine()) != null) {
-                        Bar bar = new Bar();
-                        bar.setName(str);
-                        bar.setButtonName(str);
-                        bar.setLocation(reader.readLine());
-                        bar.setLatitude(Double.parseDouble(reader.readLine()));
-                        bar.setLongitude(Double.parseDouble(reader.readLine()));
-                        displayDistance(bar);
-                        bar.setOpen(reader.readLine());
-                        bar.setOpeningTime(reader.readLine());
-                        bar.setClosingTime(reader.readLine());
-                        bar.setPrice(Double.parseDouble(reader.readLine()));
-                        bar.setAmount(Integer.parseInt(reader.readLine()));
-                        if (reader.readLine().equals("ØL")) {
-                            beerBars.add(bar);
-                        } else{
-                            coffeeBars.add(bar);
-                        }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
+            InputStream is = url.openStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+           // InputStream is = this.getResources().openRawResource(R.raw.databasetest);
+           // BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            if (is != null) {
+                while ((str = reader.readLine()) != null) {
+                    Bar bar = new Bar();
+                    bar.setName(str);
+                    bar.setButtonName(str);
+                    bar.setLocation(reader.readLine());
+                    bar.setLatitude(Double.parseDouble(reader.readLine()));
+                    bar.setLongitude(Double.parseDouble(reader.readLine()));
+                    displayDistance(bar);
+                    bar.setOpen(reader.readLine());
+                    bar.setOpeningTime(reader.readLine());
+                    bar.setClosingTime(reader.readLine());
+                    bar.setPrice(Double.parseDouble(reader.readLine()));
+                    bar.setAmount(Integer.parseInt(reader.readLine()));
+                    if (reader.readLine().equals("ØL")) {
+                        beerBars.add(bar);
+                    } else{
+                        coffeeBars.add(bar);
                     }
-
-
-                }
-            } catch (Exception e){
-                InputStream is = this.getResources().openRawResource(R.raw.databasetest);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                if (is != null) {
-                    while ((str = reader.readLine()) != null) {
-                        Bar bar = new Bar();
-                        bar.setName(str);
-                        bar.setButtonName(str);
-                        bar.setLocation(reader.readLine());
-                        bar.setLatitude(Double.parseDouble(reader.readLine()));
-                        bar.setLongitude(Double.parseDouble(reader.readLine()));
-                        displayDistance(bar);
-                        bar.setOpen(reader.readLine());
-                        bar.setOpeningTime(reader.readLine());
-                        bar.setClosingTime(reader.readLine());
-                        bar.setPrice(Double.parseDouble(reader.readLine()));
-                        bar.setAmount(Integer.parseInt(reader.readLine()));
-                        if (reader.readLine().equals("ØL")) {
-                            beerBars.add(bar);
-                        } else{
-                            coffeeBars.add(bar);
-                        }
-                    }
-
-
                 }
             }
 
