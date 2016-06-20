@@ -1,6 +1,7 @@
 package gruppe7.drinkit;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
+    private static final int PICK_SETTINGS = 0 ;
 
     BeerFragment barFrag;
 
@@ -83,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(getIntent().getExtras() != null) {
+            Log.i(TAG, "IKKE TOM");
             settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
             settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
         }else{
+            Log.i(TAG, "TOM");
             settingsOptions.sortBoolean = true;
             settingsOptions.openBoolean = false;}
 
@@ -145,8 +150,11 @@ public class MainActivity extends AppCompatActivity {
                     // Sort list of coffee bars
                     if (settingsOptions.sortBoolean) {
                         sortDistance(coffeeBars);
+                        Log.i(TAG, "DISTANCE");
                     } else {
                         sortPrice(coffeeBars);
+                        Log.i(TAG, "PRICE");
+
                     }
 
                     BeerFragment updatedBarFrag = new BeerFragment();
@@ -182,8 +190,11 @@ public class MainActivity extends AppCompatActivity {
                     // Sort list of beer bars
                     if (settingsOptions.sortBoolean) {
                         sortDistance(beerBars);
+                        Log.i(TAG, "DISTANCE");
                     } else {
                         sortPrice(beerBars);
+                        Log.i(TAG, "Price");
+
                     }
 
                     // Update ArrayList to beerbars
@@ -224,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
 
             Intent openSettings = new Intent(MainActivity.this, Settings.class);
-            MainActivity.this.startActivity(openSettings);
+            startActivityForResult(openSettings, PICK_SETTINGS);
             return true;
         }
 
@@ -245,15 +256,41 @@ public class MainActivity extends AppCompatActivity {
         } else {
             barFrag.bars = beerBars;
         }
-        if(getIntent().getExtras() != null) {
-            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
-            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
-        }else{
-            settingsOptions.sortBoolean = true;
-            settingsOptions.openBoolean = false;}
 
+       /* if (settingsOptions.sortBoolean) {
+               sortDistance( barFrag.bars);
+        } else  {
+                sortPrice( barFrag.bars);
+
+        }*/
     }
-
+    @Override
+    protected void onActivityResult(int req, int res, Intent intent) {
+        if (res == Activity.RESULT_OK && req == PICK_SETTINGS) {
+            if (intent.getExtras() != null) {
+                Log.i(TAG, "ONACTIVITY IKKE TOM");
+                settingsOptions.sortBoolean = intent.getExtras().getBoolean("SortBoolean", true);
+                settingsOptions.openBoolean = intent.getExtras().getBoolean("OpenBoolean", false);
+            } else {
+                Log.i(TAG, "ONACTIVITY TOM");
+                settingsOptions.sortBoolean = true;
+                settingsOptions.openBoolean = false;
+            }
+            if (settingsOptions.sortBoolean) {
+                if (coffeeActive) {
+                    sortDistance(coffeeBars);
+                } else {
+                    sortDistance(beerBars);
+                }
+            } else  {
+                if (coffeeActive) {
+                    sortPrice(coffeeBars);
+                } else {
+                    sortPrice(beerBars);
+                }
+            }
+        }
+    }
 
     private void displayDistance(Bar bar) {
 
