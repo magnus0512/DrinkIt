@@ -5,6 +5,7 @@ package gruppe7.drinkit;
  */
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,9 +17,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BeerFragment extends Fragment {
-    ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
+   // ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
     //ArrayList<String> barNames = new ArrayList<String>();
     ArrayList<Bar> bars = new ArrayList<Bar>();
+
+    Boolean MainActivity;
+    public boolean settingsOptionsOpen;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,10 +47,13 @@ public class BeerFragment extends Fragment {
             ListItemFragment listItemFrag = new ListItemFragment();
             //listItemFrag.barName = bars.get(i).getName();
             listItemFrag.bar = bars.get(i);
-            listFrags.add(listItemFrag);
-            childFragTrans.add(R.id.list_container_beer, listItemFrag);
-            childFragTrans.addToBackStack(null);
-
+            if (!settingsOptionsOpen){
+                //listFrags.add(listItemFrag);
+                childFragTrans.add(R.id.list_container_beer, listItemFrag);
+                childFragTrans.addToBackStack(null);
+        } else if (listItemFrag.bar.isOpen())
+                 childFragTrans.add(R.id.list_container_beer, listItemFrag);
+                childFragTrans.addToBackStack(null);
         }
 
         childFragTrans.commit();

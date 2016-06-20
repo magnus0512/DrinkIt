@@ -13,6 +13,7 @@ import android.os.Bundle;
 //import android.app.FragmentTransaction;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     final private int orangeColor = Color.rgb(250,150,0);
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
-    final private SettingsOptions settingsOptions = new SettingsOptions();
+    final private static SettingsOptions settingsOptions = new SettingsOptions();
 
     private boolean firstRun = true;
     final private double[][] placeringer = {
@@ -161,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     BeerFragment updatedBarFrag = new BeerFragment();
+                    setSettingsOpenBoolean(updatedBarFrag);
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < coffeeBars.size(); i++) {
@@ -202,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
 
                     // Update ArrayList to beerbars
                     BeerFragment updatedBarFrag = new BeerFragment();
+                    setSettingsOpenBoolean(updatedBarFrag);
+
 
                     // Add bar names to the list of buttons
                     for(int i = 0; i < beerBars.size(); i++) {
@@ -272,8 +276,11 @@ public class MainActivity extends AppCompatActivity {
 
             // Update ArrayList to beerbars
             BeerFragment updatedBarFrag = new BeerFragment();
+             setSettingsOpenBoolean(updatedBarFrag);
 
-            // Add bar names to the list of buttons
+
+
+        // Add bar names to the list of buttons
             for (int i = 0; i < barFrag.bars.size(); i++) {
                 updatedBarFrag.bars.add(barFrag.bars.get(i));
             }
@@ -298,6 +305,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "ONACTIVITY IKKE TOM");
                 settingsOptions.sortBoolean = intent.getExtras().getBoolean("SortBoolean", true);
                 settingsOptions.openBoolean = intent.getExtras().getBoolean("OpenBoolean", false);
+                // Giv boolean videre til BeerFragment
+                setSettingsOpenBoolean(barFrag);
             } else {
                 Log.i(TAG, "ONACTIVITY TOM");
                 settingsOptions.sortBoolean = true;
@@ -468,5 +477,8 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(bars);
     }
 
+    public static void setSettingsOpenBoolean(BeerFragment frag){
+        frag.settingsOptionsOpen = settingsOptions.openBoolean;
+    }
 
 }
