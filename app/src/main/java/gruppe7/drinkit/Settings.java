@@ -1,31 +1,24 @@
 package gruppe7.drinkit;
 
-/**
- * Created by Magnus on 14-06-2016.
- */
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 
 public class Settings extends Activity {
-    private CheckBox OpenOnlyCheckBox;
-    private Button OkButton, CancelButton;
-    private RadioGroup SortRadioGroup;
+    private CheckBox openOnlyCheckBox;
+    private Button okButton, cancelButton;
+    private RadioGroup sortRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +27,7 @@ public class Settings extends Activity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("DTU DrinkIt");
         toolbar.setBackgroundColor(Color.rgb(250,150,0));
+
         // Setup Listen-methods for buttons
         addListenerOkButton();
         addListenerCancelButton();
@@ -41,14 +35,15 @@ public class Settings extends Activity {
         // Load Earlier Preferences, if no earlier preferences found select default
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
-        OpenOnlyCheckBox.setChecked(sharedPreferences.getBoolean("CheckButton", false));
-        SortRadioGroup.check(sharedPreferences.getInt("SortRadio", R.id.DistanceRadiobutton));
+        openOnlyCheckBox.setChecked(sharedPreferences.getBoolean("CheckButton", false));
+        sortRadioGroup.check(sharedPreferences.getInt("SortRadio", R.id.DistanceRadiobutton));
     }
+
     public void addListenerOkButton() {
-        OkButton = (Button) findViewById(R.id.OkButton);
-        OpenOnlyCheckBox = (CheckBox) findViewById(R.id.checkbox);
-        SortRadioGroup = (RadioGroup) findViewById(R.id.sortRadioGroup);
-        OkButton.setOnClickListener(new View.OnClickListener() {
+        okButton = (Button) findViewById(R.id.OkButton);
+        openOnlyCheckBox = (CheckBox) findViewById(R.id.checkbox);
+        sortRadioGroup = (RadioGroup) findViewById(R.id.sortRadioGroup);
+        okButton.setOnClickListener(new View.OnClickListener() {
 
             //Run when button is clicked
             @Override
@@ -56,8 +51,8 @@ public class Settings extends Activity {
                 // Check Check- and radiobutton preferences, set sorting type for tabs
                 Intent optionsIntent = new Intent(getApplicationContext(),MainActivity.class);
                 StringBuffer result = new StringBuffer();
-                int sortId = SortRadioGroup.getCheckedRadioButtonId();
-                if (OpenOnlyCheckBox.isChecked()) {
+                int sortId = sortRadioGroup.getCheckedRadioButtonId();
+                if (openOnlyCheckBox.isChecked()) {
                     result.append("Only Open :").append("On");
                     optionsIntent.putExtra("OpenBoolean", true);
                 }else{
@@ -82,18 +77,19 @@ public class Settings extends Activity {
                 SharedPreferences sharedPreferences = PreferenceManager
                         .getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("CheckButton", OpenOnlyCheckBox.isChecked());
-                editor.putInt("SortRadio", SortRadioGroup.getCheckedRadioButtonId());
+                editor.putBoolean("CheckButton", openOnlyCheckBox.isChecked());
+                editor.putInt("SortRadio", sortRadioGroup.getCheckedRadioButtonId());
                 editor.commit();
                 setResult(RESULT_OK,optionsIntent);
                 finish();
             }
         });
     }
+
     public void addListenerCancelButton() {
         // Exit Settings
-        CancelButton = (Button) findViewById(R.id.CancelButton);
-        CancelButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton = (Button) findViewById(R.id.CancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             //Run when button is clicked
             @Override
             public void onClick(View v) {

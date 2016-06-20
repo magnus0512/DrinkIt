@@ -1,27 +1,18 @@
 package gruppe7.drinkit;
 
-/**
- * Created by namanhnguyen on 14/06/16.
- */
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class BeerFragment extends Fragment {
-   // ArrayList<ListItemFragment> listFrags = new ArrayList<ListItemFragment>();
-    //ArrayList<String> barNames = new ArrayList<String>();
-    ArrayList<Bar> bars = new ArrayList<Bar>();
 
-    Boolean MainActivity;
+    ArrayList<Bar> bars = new ArrayList<>();
+
     public boolean settingsOptionsOpen;
 
 
@@ -33,22 +24,10 @@ public class BeerFragment extends Fragment {
         FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
 
-        //savedInstanceState.get
-
-        // TODO: Undersøg om ArrayListen i BeerFragment/CoffeeFragment kan opdateres her
-        // Kan Bundle savedInstanceState benyttes til at gemme navnene?
-        // Så de kan indsættes i nedenstående, hvor listItemFragments tilføjes til listen
-
-        // TODO: Undersøg om OnSaveInstanceState kan bruges
-        // måske sammen med ArrayListen barNames
-
-
         for (int i = 0; i < bars.size(); i++) {
             ListItemFragment listItemFrag = new ListItemFragment();
-            //listItemFrag.barName = bars.get(i).getName();
             listItemFrag.bar = bars.get(i);
             if (!settingsOptionsOpen){
-                //listFrags.add(listItemFrag);
                 childFragTrans.add(R.id.list_container_beer, listItemFrag);
                 childFragTrans.addToBackStack(null);
         } else if (listItemFrag.bar.isOpen())

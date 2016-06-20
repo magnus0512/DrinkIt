@@ -5,15 +5,10 @@ import java.util.Calendar;
 public class Bar implements Comparable<Bar> {
 
     public String buttonName;
-    private String name;
-    private String openingTime;
-    private String closingTime;
-    private String location;
-    private String open;
-    private String sortBy;
+    private String name, openingTime, closingTime,
+            location, open, sortBy;
     private Double price;
-    private double latitude;
-    private double longitude;
+    private double latitude, longitude;
     private Integer distance;
     private int amount;
 
