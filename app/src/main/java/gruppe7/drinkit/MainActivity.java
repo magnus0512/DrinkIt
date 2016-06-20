@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
         settingsOptions.openBoolean = settings.getBoolean("openSave", false);
 
@@ -245,10 +245,11 @@ public class MainActivity extends AppCompatActivity {
 
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("sortSave", settingsOptions.sortBoolean);
         editor.putBoolean("openSave", settingsOptions.sortBoolean);
+        Log.i(TAG, "PAUSE");
         editor.commit();
     }
     @Override
@@ -397,6 +398,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Se http://www.movable-type.co.uk/scripts/latlong.html for formler
         } catch (SecurityException e){
+            return 0;
+        }catch (NullPointerException e){
             return 0;
         }
     }
