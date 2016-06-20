@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int test = 5;
         getAllPermissions();
 
         setContentView(R.layout.activity_main);
@@ -290,8 +289,8 @@ public class MainActivity extends AppCompatActivity {
 
             double a = Math.pow(Math.sin(deltaLat / 2),2) + Math.pow(Math.sin(deltaLong / 2),2) * Math.cos(lat1) * Math.cos(lat2);
             double c = 2 * Math.asin(Math.sqrt(a));
-            double test = R*c;
-            return ((int) test);
+            double afstand = R*c;
+            return ((int) afstand);
 
             // Se http://www.movable-type.co.uk/scripts/latlong.html for formler
         } catch (SecurityException e){
