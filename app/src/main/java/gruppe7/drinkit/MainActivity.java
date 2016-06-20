@@ -2,16 +2,22 @@ package gruppe7.drinkit;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -30,12 +36,19 @@ import android.widget.Button;
 import android.content.Context;
 import android.location.LocationManager;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -49,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     final private int selectedOrange = Color.rgb(225,125,0);
     final private int TITLE_COLOR = Color.BLACK;
     final private static SettingsOptions settingsOptions = new SettingsOptions();
+    public static final int progress_bar_type = 0;
+    private ProgressDialog pDialog;
+    boolean hasDownloadedFile = false;
+
 
     private boolean firstRun = true;
     final private double[][] placeringer = {
@@ -71,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
     private static final int PICK_SETTINGS = 0 ;
     public static final String PREFS_NAME = "MyPrefsFile";
-
+    InputStream endeligInput;
     BeerFragment barFrag;
 
     FragmentManager fragMan;
@@ -83,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAllPermissions();
-
+        new DownloadFilesTask().execute();
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
 
@@ -110,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        new DownloadFilesTask().execute();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
         settingsOptions.openBoolean = settings.getBoolean("openSave", false);
@@ -371,8 +388,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public int afstandsberegner(double lat, double longti) {
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -407,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
         int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int ContactPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         int InternetPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
+        int WritePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         ArrayList<String> listPermissionsNeeded = new ArrayList<>();
 
         if (locationPermission != PackageManager.PERMISSION_GRANTED) {
@@ -420,6 +436,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if(InternetPermission != PackageManager.PERMISSION_GRANTED){
             listPermissionsNeeded.add(Manifest.permission.INTERNET);
+        }
+        if(WritePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),1);
@@ -465,13 +484,33 @@ public class MainActivity extends AppCompatActivity {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
-            InputStream is = url.openStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-           // InputStream is = this.getResources().openRawResource(R.raw.databasetest);
-           // BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            /*
+            InputStream is;
+            BufferedReader reader;
+            if (networkInfo != null && networkInfo.isConnected()) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
+                is = url.openStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+            } else {
+                is = this.getResources().openRawResource(R.raw.databasetest);
+                reader = new BufferedReader(new InputStreamReader(is));
+            }
+
+
+*/
+            InputStream is;
+            BufferedReader reader;
+            File file = new File(Environment.getExternalStorageDirectory().toString() + "/database.txt");
+            if (file.exists()){
+                is = new FileInputStream(file);
+            } else {
+                is = this.getResources().openRawResource(R.raw.databasetest);
+            }
+            reader = new BufferedReader(new InputStreamReader(is));
+
+
             if (is != null) {
                 while ((str = reader.readLine()) != null) {
                     Bar bar = new Bar();
@@ -492,11 +531,46 @@ public class MainActivity extends AppCompatActivity {
                         coffeeBars.add(bar);
                     }
                 }
-            }
 
-        }catch (MalformedURLException e){
-        } catch (IOException e) {
+
+            }
+        }
+         catch (MalformedURLException e){}
+         catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private class DownloadFilesTask extends AsyncTask<Void, String, InputStream> {
+
+        protected InputStream doInBackground(Void... urls) {
+            try {
+                String placeringITelefon = Environment.getExternalStorageDirectory().toString();
+                URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.connect();
+                int fileSize = urlConnection.getContentLength();
+                InputStream is = new BufferedInputStream(url.openStream(),
+                        8192);
+
+                OutputStream out = new FileOutputStream(placeringITelefon + "/database.txt");
+
+                byte data[] = new byte[1024];
+                int deleHentet;
+                long total = 0;
+                while ((deleHentet = is.read(data)) != 1){
+                    out.write(data, 0 , deleHentet);
+                }
+
+                out.flush();
+                out.close();
+                is.close();
+
+            } catch (Exception e){
+
+            }
+            return null;
         }
 
     }
