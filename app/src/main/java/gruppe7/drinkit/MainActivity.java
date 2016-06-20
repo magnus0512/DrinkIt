@@ -70,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_CONTACTS_PERMISSION_REQUEST = 1;
     private static final int SEND_SMS_PERMISSION_REQUEST = 2;
     private static final int PICK_SETTINGS = 0 ;
-    private static final Boolean SORT_BOOLEAN = true;
-    private static final Boolean OPEN_BOOLEAN = false;
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     BeerFragment barFrag;
 
@@ -95,25 +94,27 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(TITLE_COLOR);
         setSupportActionBar(toolbar);
 
-        if(getIntent().getExtras() != null) {
+       /* if(getIntent().getExtras() != null) {
             Log.i(TAG, "IKKE TOM");
             settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
             settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
         }else{
             Log.i(TAG, "TOM");
             settingsOptions.sortBoolean = true;
-            settingsOptions.openBoolean = false;}
 
-        if (savedInstanceState != null) {
-            settingsOptions.sortBoolean = savedInstanceState.getBoolean("SORT_BOOLEAN");
-            settingsOptions.openBoolean = savedInstanceState.getBoolean("OPEN_BOOLEAN");
-        }
+           settingsOptions.openBoolean = false;}
+       */
         // Initialise list of bars in the two ArrayLists
         try {
             readFile(coffeeBars, beerBars);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
+        settingsOptions.openBoolean = settings.getBoolean("openSave", false);
+
 
         fragMan = getSupportFragmentManager();
         barFrag = new BeerFragment();
@@ -139,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
         //fragTrans.addToBackStack(null);
         fragTrans.commit();
 
-
+        if (settingsOptions.sortBoolean) {
+            sortDistance(barFrag.bars);
+        } else {
+            sortPrice(barFrag.bars);
+        }
 
         // Make buttons for toggling the bar list
         final Button coffeeButton = (Button) findViewById(R.id.coffeeButton);
@@ -233,8 +238,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
 
-
+        // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("sortSave", settingsOptions.sortBoolean);
+        editor.putBoolean("openSave", settingsOptions.sortBoolean);
+        editor.commit();
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -288,13 +303,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 sortPrice(barFrag.bars);
                 Log.i(TAG, "Price");
-
-                SharedPreferences sharedPreferences = PreferenceManager
-                        .getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("CheckBoolean", settingsOptions.openBoolean);
-                editor.putBoolean("SortBoolean", settingsOptions.sortBoolean);
-                editor.commit();
             }
 
             // Update ArrayList to beerbars
