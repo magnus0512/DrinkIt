@@ -74,9 +74,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getAllPermissions();
+
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
-
 
         // Set up toolbar with title and settings button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -105,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
         barFrag = new BeerFragment();
 
         // Show permissions
-        getPermissionToReadUserContacts();
-        getPermissionToSendTexts();
-        getPermissionToTrackUser();
+        // getPermissionToReadUserContacts();
+        // getPermissionToSendTexts();
+        // getPermissionToTrackUser();
 
         // Add bar names to the list of buttons
         // In this case, beer bar is the default screen
@@ -325,8 +326,8 @@ public class MainActivity extends AppCompatActivity {
 
             double a = Math.pow(Math.sin(deltaLat / 2),2) + Math.pow(Math.sin(deltaLong / 2),2) * Math.cos(lat1) * Math.cos(lat2);
             double c = 2 * Math.asin(Math.sqrt(a));
-            double test = R*c;
-            return ((int) test);
+            double afstand = R*c;
+            return ((int) afstand);
 
             // Se http://www.movable-type.co.uk/scripts/latlong.html for formler
         } catch (SecurityException e){
@@ -334,7 +335,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean getAllPermissions(){
+        int permissionSendMessage = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS);
+        int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int ContactPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        ArrayList<String> listPermissionsNeeded = new ArrayList<>();
 
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (permissionSendMessage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if(ContactPermission!= PackageManager.PERMISSION_GRANTED){
+
+            listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),1);
+            return false;
+        }
+        return true;
+
+    }
+
+/*
     public void getPermissionToReadUserContacts(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
 
@@ -359,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
     }
-
+*/
 
     // TODO: Sæt felterne coffeeBars og beerBars (ArrayLists)
     public void readFile(ArrayList<Bar> coffeeBars, ArrayList<Bar> beerBars) throws IOException {
