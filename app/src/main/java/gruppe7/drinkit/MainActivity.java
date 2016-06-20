@@ -12,6 +12,7 @@ import android.os.Bundle;
 //import android.app.Fragment;
 //import android.app.FragmentManager;
 //import android.app.FragmentTransaction;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -395,6 +398,7 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.SEND_SMS);
         int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int ContactPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        int InternetPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
         ArrayList<String> listPermissionsNeeded = new ArrayList<>();
 
         if (locationPermission != PackageManager.PERMISSION_GRANTED) {
@@ -405,6 +409,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if(ContactPermission!= PackageManager.PERMISSION_GRANTED){
             listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS);
+        }
+        if(InternetPermission != PackageManager.PERMISSION_GRANTED){
+            listPermissionsNeeded.add(Manifest.permission.INTERNET);
         }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),1);
@@ -450,32 +457,65 @@ public class MainActivity extends AppCompatActivity {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
-            InputStream is = this.getResources().openRawResource(R.raw.databasetest);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            if (is != null) {
-                while ((str = reader.readLine()) != null) {
-                    Bar bar = new Bar();
-                    bar.setName(str);
-                    bar.setButtonName(str);
-                    bar.setLocation(reader.readLine());
-                    bar.setLatitude(Double.parseDouble(reader.readLine()));
-                    bar.setLongitude(Double.parseDouble(reader.readLine()));
-                    displayDistance(bar);
-                    bar.setOpen(reader.readLine());
-                    bar.setOpeningTime(reader.readLine());
-                    bar.setClosingTime(reader.readLine());
-                    bar.setPrice(Double.parseDouble(reader.readLine()));
-                    bar.setAmount(Integer.parseInt(reader.readLine()));
-                    if (reader.readLine().equals("ØL")) {
-                        beerBars.add(bar);
-                    } else{
-                        coffeeBars.add(bar);
+            try {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
+                InputStream nyIs = url.openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(nyIs));
+                if (nyIs != null) {
+                    while ((str = reader.readLine()) != null) {
+                        Bar bar = new Bar();
+                        bar.setName(str);
+                        bar.setButtonName(str);
+                        bar.setLocation(reader.readLine());
+                        bar.setLatitude(Double.parseDouble(reader.readLine()));
+                        bar.setLongitude(Double.parseDouble(reader.readLine()));
+                        displayDistance(bar);
+                        bar.setOpen(reader.readLine());
+                        bar.setOpeningTime(reader.readLine());
+                        bar.setClosingTime(reader.readLine());
+                        bar.setPrice(Double.parseDouble(reader.readLine()));
+                        bar.setAmount(Integer.parseInt(reader.readLine()));
+                        if (reader.readLine().equals("ØL")) {
+                            beerBars.add(bar);
+                        } else{
+                            coffeeBars.add(bar);
+                        }
                     }
+
+
                 }
+            } catch (Exception e){
+                InputStream is = this.getResources().openRawResource(R.raw.databasetest);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                if (is != null) {
+                    while ((str = reader.readLine()) != null) {
+                        Bar bar = new Bar();
+                        bar.setName(str);
+                        bar.setButtonName(str);
+                        bar.setLocation(reader.readLine());
+                        bar.setLatitude(Double.parseDouble(reader.readLine()));
+                        bar.setLongitude(Double.parseDouble(reader.readLine()));
+                        displayDistance(bar);
+                        bar.setOpen(reader.readLine());
+                        bar.setOpeningTime(reader.readLine());
+                        bar.setClosingTime(reader.readLine());
+                        bar.setPrice(Double.parseDouble(reader.readLine()));
+                        bar.setAmount(Integer.parseInt(reader.readLine()));
+                        if (reader.readLine().equals("ØL")) {
+                            beerBars.add(bar);
+                        } else{
+                            coffeeBars.add(bar);
+                        }
+                    }
 
 
+                }
             }
-        }catch (IOException e) {
+
+        }catch (MalformedURLException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
