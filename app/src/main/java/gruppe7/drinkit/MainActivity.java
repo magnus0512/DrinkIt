@@ -258,6 +258,30 @@ public class MainActivity extends AppCompatActivity {
             barFrag.bars = beerBars;
         }
 
+            // Sort list of beer bars
+            if (settingsOptions.sortBoolean) {
+                sortDistance(barFrag.bars);
+                Log.i(TAG, "DISTANCE");
+            } else {
+                sortPrice(barFrag.bars);
+                Log.i(TAG, "Price");
+
+            }
+
+            // Update ArrayList to beerbars
+            BeerFragment updatedBarFrag = new BeerFragment();
+
+            // Add bar names to the list of buttons
+            for (int i = 0; i < barFrag.bars.size(); i++) {
+                updatedBarFrag.bars.add(barFrag.bars.get(i));
+            }
+
+            // Install beerFragment
+            FragmentTransaction fragTrans = fragMan.beginTransaction();
+            fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
+            //fragTrans.addToBackStack(null);
+            fragTrans.commit();
+
        /* if (settingsOptions.sortBoolean) {
                sortDistance( barFrag.bars);
         } else  {
