@@ -11,20 +11,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by Bruger on 16-06-2016.
- */
 public class ChooseContactFragment extends Fragment{
 
-    ArrayList<ContactItemFragment> contactFrags = new ArrayList<ContactItemFragment>();
+    ArrayList<ContactItemFragment> contactFrags = new ArrayList<>();
 
-    ArrayList<String> names = new ArrayList<String>();
-    ArrayList<String> numbers = new ArrayList<String>();
+    ArrayList<String> names = new ArrayList<>();
+    ArrayList<String> numbers = new ArrayList<>();
 
     private static final Uri PHONE_CONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
     private static final String DISPLAY_NAME = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME;
@@ -40,9 +35,11 @@ public class ChooseContactFragment extends Fragment{
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction childFragTransaction = childFragmentManager.beginTransaction();
 
+        //sæt cursoren på det rigtige sted i telefonens data
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(PHONE_CONTENT_URI, null,null,null, null);
 
+        //Kør igennem kontakterne og gem navn og nummer på dem alle
         while (cursor.moveToNext())
         {
             String name=cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
@@ -65,7 +62,6 @@ public class ChooseContactFragment extends Fragment{
 
         return rootView;
     }
-
 
     public  ArrayList<ContactItemFragment> getContactItemFragments() {
         return contactFrags;

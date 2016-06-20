@@ -20,29 +20,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/WelcomeTextView"
         android:text="Welcome to DTU DrinkIt!"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.10"
+        android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/DisclaimTextView"
         android:text="Disclaimer: "
-        />
+        android:layout_weight="0.07" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SortTextView"
         android:text="Select Sort Preference"
-        />
+        android:layout_weight="0.05" />
     <RadioGroup
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:id="@+id/sortRadioGroup"
         android:checkedButton="@+id/DistanceRadiobutton"
         android:baselineAligned="true">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:id="@+id/DistanceTextView"
             android:text="Distance"
             />
@@ -67,7 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:baselineAligned="true">
+        android:baselineAligned="true"
+        android:layout_weight="0.05">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,5 +116,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/creditsTextView"
         android:text="Michelle, Kevin, Anna, Frederik, Asmund and Magnus"
-        />
+        android:textStyle="italic" />
 </LinearLayout>
