@@ -2,6 +2,7 @@ package gruppe7.drinkit;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -373,7 +375,6 @@ public class MainActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
         }
         if(ContactPermission!= PackageManager.PERMISSION_GRANTED){
-
             listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS);
         }
         if (!listPermissionsNeeded.isEmpty()) {
@@ -395,6 +396,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void getPermissionToSendTexts(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)){
+
+            }
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
                     SEND_SMS_PERMISSION_REQUEST);
         }

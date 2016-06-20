@@ -18,6 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -52,9 +55,18 @@ public class AlertDialogFragment extends DialogFragment {
                             public void onClick(
                                     final DialogInterface dialog, int id) {
 
-                                Intent intent = new Intent(getActivity(), ChooseContact.class);
-                                intent.putExtra("custom extra", bar.getName());
-                                startActivity(intent);
+                                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_GRANTED&&
+                                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS)==PackageManager.PERMISSION_GRANTED){
+                                    Intent intent = new Intent(getActivity(), ChooseContact.class);
+                                    intent.putExtra("custom extra", bar.getName());
+                                    startActivity(intent);
+
+                                }else{
+                                    Toast.makeText(getActivity(), "DTU drinkIt needs access contacts and Sms to share location. Go to settings and enable permissions", Toast.LENGTH_LONG)
+                                            .show();
+                                }
+
+
 
                             }
                         })
