@@ -1,37 +1,76 @@
 package gruppe7.drinkit;
 
-import android.util.Log;
-
 import java.util.Calendar;
 
-/**
- * Created by namanhnguyen on 17/06/16.
- */
 public class Bar implements Comparable<Bar> {
 
+    public String buttonName;
     private String name;
     private String openingTime;
-    private Double price;
     private String closingTime;
     private String location;
+    private String open;
+    private String sortBy;
+    private Double price;
     private double latitude;
     private double longitude;
-    private String open;
-    private String type;
-    private int amount;
     private Integer distance;
-    private String sortBy;
-    public String buttonName;
+    private int amount;
 
 
-    public String getSortBy() {
-        return sortBy;
+    @Override
+    public int compareTo(Bar o) {
+        if (o.sortBy.equals("price")) {
+            //sort by price of a single beer
+            int price = ((Double)(this.price/this.amount)).compareTo(o.getPrice()/o.getAmount());
+            // sort by distance, if price is the same
+            if (price!=0) {
+                return price;
+            } else{
+                return this.distance.compareTo(o.getDistance());
+            }
+          //  return this.price.compareTo(o.getPrice());
+        }
+        return this.distance.compareTo(o.getDistance());
     }
+
+    public boolean isOpen (){
+        Calendar curDate = Calendar.getInstance();
+        int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
+
+        if (getOpen().equals("Every day")){
+            return true;
+        }
+        else if (getOpen().equals("Friday")){
+            if(dayOfWeek !=Calendar.FRIDAY){
+                return false;
+            }
+        }else if(getOpen().equals("Weekdays")){
+            if(dayOfWeek>Calendar.FRIDAY){
+                return false;
+            }
+        }
+        String[] openArray = getOpeningTime().split(":");
+        String[] closedArray = getClosingTime().split(":");
+        int openHours = Integer.parseInt(openArray[0]);
+        int openMin = Integer.parseInt(openArray[1]);
+        int openTimeSec = openHours * 3600 + openMin * 60;
+
+        int closedHours = Integer.parseInt(closedArray[0]);
+        int closedMin = Integer.parseInt(closedArray[1]);
+        int closedTimeSec = closedHours * 3600 + closedMin * 60;
+
+        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 3600 + curDate.get(Calendar.MINUTE) * 60;
+        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
+            return true;
+        }
+        return false;
+    }
+
 
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
     }
-
 
     public int getDistance() {
         return distance;
@@ -57,7 +96,6 @@ public class Bar implements Comparable<Bar> {
         this.open = open;
     }
 
-
     public double getLongitude() {
         return longitude;
     }
@@ -66,22 +104,12 @@ public class Bar implements Comparable<Bar> {
         this.longitude = longitude;
     }
 
-
     public double getLatitude() {
         return latitude;
     }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
-    }
-
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getLocation() {
@@ -130,62 +158,6 @@ public class Bar implements Comparable<Bar> {
 
     public Double getPrice() {
         return price;
-    }
-
-
-    @Override
-    public int compareTo(Bar o) {
-        if (o.sortBy.equals("price")) {
-            //sort by price of a single beer
-            int price = ((Double)(this.price/this.amount)).compareTo(o.getPrice()/o.getAmount());
-            // sort by distance, if price is the same
-            if (price!=0) {
-                return price;
-            } else{
-                return this.distance.compareTo(o.getDistance());
-            }
-          //  return this.price.compareTo(o.getPrice());
-        }
-        return this.distance.compareTo(o.getDistance());
-    }
-
-    public boolean isOpen (){
-        Calendar curDate = Calendar.getInstance();
-        int dayOfWeek = curDate.get(Calendar.DAY_OF_WEEK);
-
-        if (getOpen().equals("Every day")){
-            return true;
-        }
-        else if (getOpen().equals("Friday")){
-            if(dayOfWeek !=Calendar.FRIDAY){
-                return false;
-            }
-        }else if(getOpen().equals("Weekdays")){
-            if(dayOfWeek>Calendar.FRIDAY){
-                return false;
-            }
-        }
-        String[] openArray = getOpeningTime().split(":");
-        String[] closedArray = getClosingTime().split(":");
-        int openHours = Integer.parseInt(openArray[0]);
-        Log.d("lalal", ""+openHours);
-        int openMin = Integer.parseInt(openArray[1]);
-        Log.d("lalal", ""+openMin);
-        int openTimeSec = openHours * 3600 + openMin * 60;
-
-        int closedHours = Integer.parseInt(closedArray[0]);
-        Log.d("lalal", ""+closedHours);
-        int closedMin = Integer.parseInt(closedArray[1]);
-        Log.d("lalal", ""+closedMin);
-        int closedTimeSec = closedHours * 3600 + closedMin * 60;
-
-        int currentTimeSec = curDate.get(Calendar.HOUR_OF_DAY) * 3600 + curDate.get(Calendar.MINUTE) * 60;
-        Log.d("lalal", ""+currentTimeSec);
-        Log.d("lalal", ""+curDate.get(Calendar.HOUR_OF_DAY));
-        if (currentTimeSec > openTimeSec && currentTimeSec < closedTimeSec) {
-            return true;
-        }
-        return false;
     }
 
 }
