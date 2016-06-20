@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+       // SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         new DownloadFilesTask().execute();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
