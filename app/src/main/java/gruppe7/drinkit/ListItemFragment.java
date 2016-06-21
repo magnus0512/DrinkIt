@@ -61,10 +61,5 @@ public class ListItemFragment extends Fragment {
 
     }
 
-    public void setBarName(String name) {
-        barNameButton.setText(name);
-
-    }
-
 }
 

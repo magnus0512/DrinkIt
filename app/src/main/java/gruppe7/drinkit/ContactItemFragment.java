@@ -55,10 +55,6 @@ public class ContactItemFragment extends Fragment{
         return number;
     }
 
-    public String getContactName(){
-        return contact;
-    }
-
     public boolean getIsClicked(){
         return isClicked;
     }
