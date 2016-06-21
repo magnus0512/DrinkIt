@@ -23,16 +23,14 @@ public class InfoDialogFragment extends DialogFragment {
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
-                // Sætter titlen
-                .setTitle(bar.getName())
-                // Sætter info om bar
-                .setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " + bar.getClosingTime() + priser + bar.getAmount() + " for " +Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation())
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle(bar.getName())
                 // Gør det muligt at trykke tilbage
                 .setCancelable(true)
                 // Sætter "cancel"-knappen og lukker dialogboksen
                 .setNeutralButton(android.R.string.cancel, null)
-
                 // Sætter "share"-knappen
                 .setNegativeButton("Share",
                         new DialogInterface.OnClickListener() {
@@ -63,8 +61,20 @@ public class InfoDialogFragment extends DialogFragment {
                                         Uri.parse("http://maps.google.com/maps?&daddr=" + i + ", " + j));
                                 startActivity(intent);
                             }
-                        })
-                .create();
+                        });
+
+        if(bar.getOpeningTime().equals("Always open")) {
+            builder.setMessage(openHours + bar.getOpeningTime() + priser + bar.getAmount() +
+                    " for " + Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation +
+                    bar.getLocation());
+        }
+        else{
+            builder.setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " +
+                    bar.getClosingTime() + priser + bar.getAmount() + " for " +
+                    Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation());
+        }
+        return builder.create();
+
     }
 
 }
