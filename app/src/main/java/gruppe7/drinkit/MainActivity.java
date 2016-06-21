@@ -245,6 +245,36 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_refresh) {
 
+            coffeeBars.clear();
+            beerBars.clear();
+
+            try {
+                readFile(coffeeBars, beerBars);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            new DownloadFilesTask().execute();
+            fragMan = getSupportFragmentManager();
+            barFrag = new BeerFragment();
+
+            for(int i = 0; i < beerBars.size(); i++) {
+                barFrag.bars.add(beerBars.get(i));
+            }
+
+            FragmentTransaction fragTrans = fragMan.beginTransaction();
+            fragTrans.replace(R.id.list_upper_container, barFrag);
+            //fragTrans.addToBackStack(null);
+            fragTrans.commit();
+
+            if (settingsOptions.sortBoolean) {
+                sortDistance(barFrag.bars);
+            } else {
+                sortPrice(barFrag.bars);
+            }
+
+
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -393,22 +423,7 @@ public class MainActivity extends AppCompatActivity {
         String str;
         StringBuffer buf = new StringBuffer();
         try {
-            /*
-            InputStream is;
-            BufferedReader reader;
-            if (networkInfo != null && networkInfo.isConnected()) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                URL url = new URL("http://www.student.dtu.dk/~s153200/databasetest.txt");
-                is = url.openStream();
-                reader = new BufferedReader(new InputStreamReader(is));
-            } else {
-                is = this.getResources().openRawResource(R.raw.databasetest);
-                reader = new BufferedReader(new InputStreamReader(is));
-            }
 
-
-*/
             InputStream is;
             BufferedReader reader;
             File file = new File(Environment.getExternalStorageDirectory().toString() + "/database.txt");
