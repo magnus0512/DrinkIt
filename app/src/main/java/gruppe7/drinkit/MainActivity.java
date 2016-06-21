@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PICK_SETTINGS = 0 ;
 
-    public static final String PREFS_NAME = "MyPrefsFile";
     InputStream endeligInput;
     BeerFragment barFrag;
 
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getAllPermissions();
         setContentView(R.layout.activity_main);
-        Log.i(TAG,"entered OnCreate");
 
         // Set up toolbar with title and settings button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       // SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+       // Load saved sortoptions
         new DownloadFilesTask().execute();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
@@ -145,10 +143,8 @@ public class MainActivity extends AppCompatActivity {
                     // Sort list of coffee bars
                     if (settingsOptions.sortBoolean) {
                         sortDistance(coffeeBars);
-                        Log.i(TAG, "DISTANCE");
                     } else {
                         sortPrice(coffeeBars);
-                        Log.i(TAG, "PRICE");
                     }
 
                     BeerFragment updatedBarFrag = new BeerFragment();
@@ -184,10 +180,8 @@ public class MainActivity extends AppCompatActivity {
                     // Sort list of beer bars
                     if (settingsOptions.sortBoolean) {
                         sortDistance(beerBars);
-                        Log.i(TAG, "DISTANCE");
                     } else {
                         sortPrice(beerBars);
-                        Log.i(TAG, "Price");
                     }
 
                     // Update ArrayList to beerbars
@@ -216,13 +210,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
+        // Gemmer sorterings indstillinger, ved pause
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("sortSave", settingsOptions.sortBoolean);
         editor.putBoolean("openSave", settingsOptions.openBoolean);
-        Log.i(TAG, "PAUSE");
         editor.commit();
     }
 
@@ -237,12 +229,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        //Checkes, what options button is pressed
+        // Settings-button pressed
         if (id == R.id.action_settings) {
 
             Intent openSettings = new Intent(MainActivity.this, Settings.class);
             startActivityForResult(openSettings, PICK_SETTINGS);
             return true;
         }
+        // Refresh-button pressed
         if (id == R.id.action_refresh) {
 
             coffeeBars.clear();
@@ -271,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
 
             FragmentTransaction fragTrans = fragMan.beginTransaction();
             fragTrans.replace(R.id.list_upper_container, barFrag);
-            //fragTrans.addToBackStack(null);
             fragTrans.commit();
 
 
@@ -299,10 +293,8 @@ public class MainActivity extends AppCompatActivity {
             // Sort list of beer bars
             if (settingsOptions.sortBoolean) {
                 sortDistance(barFrag.bars);
-                Log.i(TAG, "DISTANCE");
             } else {
                 sortPrice(barFrag.bars);
-                Log.i(TAG, "Price");
             }
 
             // Update ArrayList to beerbars
@@ -324,18 +316,19 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int req, int res, Intent intent) {
+        // Checkes if resultat originates from Settings
         if (res == Activity.RESULT_OK && req == PICK_SETTINGS) {
+           //Gets the extras from the results intent
             if (intent.getExtras() != null) {
-                Log.i(TAG, "ONACTIVITY IKKE TOM");
                 settingsOptions.sortBoolean = intent.getExtras().getBoolean("SortBoolean", true);
                 settingsOptions.openBoolean = intent.getExtras().getBoolean("OpenBoolean", false);
-                // Giv boolean videre til BeerFragment
+                // Passes the boolean on to BeerFragment
                 setSettingsOpenBoolean(barFrag);
             } else {
-                Log.i(TAG, "ONACTIVITY TOM");
                 settingsOptions.sortBoolean = true;
                 settingsOptions.openBoolean = false;
             }
+            // Set sorting after current active tab.
             if (settingsOptions.sortBoolean) {
                 if (coffeeActive) {
                     sortDistance(coffeeBars);

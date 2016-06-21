@@ -50,28 +50,18 @@ public class Settings extends Activity {
             public void onClick(View v) {
                 // Check Check- and radiobutton preferences, set sorting type for tabs
                 Intent optionsIntent = new Intent(getApplicationContext(),MainActivity.class);
-                StringBuffer result = new StringBuffer();
                 int sortId = sortRadioGroup.getCheckedRadioButtonId();
                 if (openOnlyCheckBox.isChecked()) {
-                    result.append("Only Open :").append("On");
                     optionsIntent.putExtra("OpenBoolean", true);
                 }else{
-                    result.append("Only Open :").append("Off");
                     optionsIntent.putExtra("OpenBoolean", false);
                 }
 
                 if (sortId == R.id.DistanceRadiobutton) {
-                    result.append("\n Distance :").append("Current");
                     optionsIntent.putExtra("SortBoolean", true);
-                    Log.i("HEJ", "SETTINGS SORT TRUE");
                 } else {
-                    result.append("\n Price :").append("Current");
                     optionsIntent.putExtra("SortBoolean", false);
-                    Log.i("HEJ", "SETTINGS SORT FALSE");
                 }
-
-                Toast.makeText(Settings.this, result.toString(),
-                        Toast.LENGTH_LONG).show();
 
                 // Save Selected Preferences, and exit Settings
                 SharedPreferences sharedPreferences = PreferenceManager
