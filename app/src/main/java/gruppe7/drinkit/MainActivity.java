@@ -100,16 +100,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-/* if(getIntent().getExtras() != null) {
-            Log.i(TAG, "IKKE TOM");
-            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
-            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
-        }else{
-            Log.i(TAG, "TOM");
-            settingsOptions.sortBoolean = true;
-
-           settingsOptions.openBoolean = false;}
-       */
        // SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         new DownloadFilesTask().execute();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -237,15 +227,6 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "Entered the onSaveInstanceState() method");
-        savedInstanceState.putBoolean("SORT_BOOLEAN", settingsOptions.sortBoolean);
-        savedInstanceState.putBoolean("OPEN_BOOLEAN", settingsOptions.openBoolean);
-        super.onSaveInstanceState(savedInstanceState);
-
-    }
     // Opretter layout for toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
