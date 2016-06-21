@@ -26,14 +26,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/DisclaimTextView"
-        android:text="Disclaimer: "
-        android:layout_weight="0.07" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/SortTextView"
-        android:text="Select Sort Preference"
+        android:text="Select Sorting Preferences"
+        android:textStyle="bold|normal"
         android:layout_weight="0.05" />
     <RadioGroup
         android:orientation="horizontal"
@@ -115,6 +110,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/creditsTextView"
-        android:text="Michelle, Kevin, Anna, Frederik, Asmund and Magnus"
+        android:text="Michelle, Kevin, Anna, Frederik, Asmund and Magnus \n"
         android:textStyle="italic" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DisclaimTextView"
+        android:text="@string/text_disclaim"
+        android:textStyle="bold"
+        android:layout_weight="0.07" />
 </LinearLayout>

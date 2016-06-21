@@ -257,7 +257,8 @@ public class MainActivity extends AppCompatActivity {
             new DownloadFilesTask().execute();
             fragMan = getSupportFragmentManager();
 
-                barFrag = new BeerFragment();
+                 barFrag = new BeerFragment();
+                setSettingsOpenBoolean(barFrag);
 
             if (coffeeActive) {
                 for(int i = 0; i < coffeeBars.size(); i++) {
