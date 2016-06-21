@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAllPermissions();
-        new DownloadFilesTask().execute();
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
 
@@ -244,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(openSettings, PICK_SETTINGS);
             return true;
         }
+        if (id == R.id.action_refresh) {
 
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -283,13 +284,6 @@ public class MainActivity extends AppCompatActivity {
             fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
             //fragTrans.addToBackStack(null);
             fragTrans.commit();
-
-       /* if (settingsOptions.sortBoolean) {
-               sortDistance( barFrag.bars);
-        } else  {
-                sortPrice( barFrag.bars);
-
-        }*/
     }
     @Override
     protected void onActivityResult(int req, int res, Intent intent) {
