@@ -100,10 +100,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+/* if(getIntent().getExtras() != null) {
+            Log.i(TAG, "IKKE TOM");
+            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
+            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
+        }else{
+            Log.i(TAG, "TOM");
+            settingsOptions.sortBoolean = true;
 
+           settingsOptions.openBoolean = false;}
+       */
        // SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         new DownloadFilesTask().execute();
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         settingsOptions.sortBoolean = settings.getBoolean("sortSave", true);
         settingsOptions.openBoolean = settings.getBoolean("openSave", false);
 
@@ -223,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("sortSave", settingsOptions.sortBoolean);
-        editor.putBoolean("openSave", settingsOptions.sortBoolean);
+        editor.putBoolean("openSave", settingsOptions.openBoolean);
         Log.i(TAG, "PAUSE");
         editor.commit();
     }
