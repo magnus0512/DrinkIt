@@ -151,7 +151,7 @@ public class Bar implements Comparable<Bar> {
         this.price = price;
     }
 
-    public Double getPrice() {
+    public Double getPrice()     {
         return price;
     }
 
