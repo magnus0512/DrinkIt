@@ -64,9 +64,8 @@ public class ChooseContact extends AppCompatActivity {
                 }
 
                 if (0 != chosenNumbers.size()) {
-
-                    //Få barnavnet fra den String extra der er
-                    //Sendt med intenten
+                    //Get the barname from the String extra
+                    //Sent with the intent
                     Bundle extras = getIntent().getExtras();
                     String barName = "";
 
@@ -82,7 +81,7 @@ public class ChooseContact extends AppCompatActivity {
                         sms.sendTextMessage(chosenNumbers.get(j), null, "Hey come join me at " + barName + "!!", pi, null);
                     }
 
-                    //Informer brugeren om at sms'en er sendt
+                    //Informes user that a sms has been send
                     Toast.makeText(ChooseContact.this, "SMS send",
                             Toast.LENGTH_SHORT).show();
 

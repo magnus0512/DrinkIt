@@ -27,11 +27,11 @@ public class InfoDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setTitle(bar.getName())
-                // Gør det muligt at trykke tilbage
+                // Make it possible to press Back
                 .setCancelable(true)
-                // Sætter "cancel"-knappen og lukker dialogboksen
+                // Sets "cancel"-button and closes dialogbox
                 .setNeutralButton(android.R.string.cancel, null)
-                // Sætter "share"-knappen
+                // Sets "share"-button
                 .setNegativeButton("Share",
                         new DialogInterface.OnClickListener() {
                             public void onClick(
@@ -49,7 +49,7 @@ public class InfoDialogFragment extends DialogFragment {
                             }
                         })
 
-                // Sætter "find"-knappen
+                // Sets "find"-button
                 .setPositiveButton("Find",
                         new DialogInterface.OnClickListener() {
                             public void onClick(

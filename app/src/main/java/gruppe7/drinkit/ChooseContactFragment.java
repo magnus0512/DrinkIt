@@ -35,11 +35,11 @@ public class ChooseContactFragment extends Fragment{
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction childFragTransaction = childFragmentManager.beginTransaction();
 
-        //sæt cursoren på det rigtige sted i telefonens data
+        //Put the cursor on the right place in the phones data
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(PHONE_CONTENT_URI, null,null,null, null);
 
-        //Kør igennem kontakterne og gem navn og nummer på dem alle
+        //Go through the contacts and save name and number for all
         while (cursor.moveToNext())
         {
             String name=cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));

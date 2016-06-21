@@ -31,7 +31,7 @@ public class ListItemFragment extends Fragment {
             barNameButton.setTextColor(Color.GRAY);
         }
 
-        // Åbner dialog med bar-info
+        // Opens dialog with bar-info
         barNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +44,7 @@ public class ListItemFragment extends Fragment {
             }
         });
 
-        // Åben Google Maps via geo adresse
+        // Opens Google Maps through geo address
         findButton = (Button) listItemView.findViewById(R.id.barFind);
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override

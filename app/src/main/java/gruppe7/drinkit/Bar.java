@@ -24,7 +24,6 @@ public class Bar implements Comparable<Bar> {
             } else{
                 return this.distance.compareTo(o.getDistance());
             }
-          //  return this.price.compareTo(o.getPrice());
         }
         return this.distance.compareTo(o.getDistance());
     }
