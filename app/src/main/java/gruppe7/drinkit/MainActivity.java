@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.content.Context;
 import android.location.LocationManager;
 
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int progress_bar_type = 0;
     private ProgressDialog pDialog;
     boolean hasDownloadedFile = false;
+
+
+
+
 
 
     ArrayList<Bar> beerBars = new ArrayList<>();
@@ -349,10 +354,10 @@ public class MainActivity extends AppCompatActivity {
 
         bar.setDistance(afstandsberegner(bar.getLatitude(), bar.getLongitude()));
         if (bar.getButtonName().indexOf("-") == -1) {
-            bar.setButtonName(bar.getButtonName() + "  -  " + bar.getDistance() + " meter");
+            bar.setButtonName(bar.getButtonName() + "  -  " + bar.getDistance() + " m");
         } else {
             bar.setButtonName(bar.getButtonName().substring(0, bar.getButtonName().indexOf("-") - 1)
-                    + "- " + bar.getDistance() + " meter");
+                    + "- " + bar.getDistance() + " m");
         }
 
     }
