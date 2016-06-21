@@ -22,8 +22,6 @@ public class InfoDialogFragment extends DialogFragment {
         return new InfoDialogFragment();
     }
 
-
-
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -66,13 +64,11 @@ public class InfoDialogFragment extends DialogFragment {
                         });
 
         if(bar.getOpeningTime().equals("Always open")) {
-
             builder.setMessage(openHours + bar.getOpeningTime() + priser + bar.getAmount() +
                     " for " + Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation +
                     bar.getLocation());
         }
         else{
-
             builder.setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " +
                     bar.getClosingTime() + priser + bar.getAmount() + " for " +
                     Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation());
