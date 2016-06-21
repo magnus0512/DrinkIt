@@ -273,18 +273,13 @@ public class MainActivity extends AppCompatActivity {
             //fragTrans.addToBackStack(null);
             fragTrans.commit();
 
+
+
+            setSettingsOpenBoolean(barFrag);
             if (settingsOptions.sortBoolean) {
-                if (coffeeActive) {
-                    sortDistance(coffeeBars);
-                } else {
-                    sortDistance(beerBars);
-                }
-            } else  {
-                if (coffeeActive) {
-                    sortPrice(coffeeBars);
-                } else {
-                    sortPrice(beerBars);
-                }
+                sortDistance(barFrag.bars);
+            } else {
+                sortPrice(barFrag.bars);
             }
         }
         return super.onOptionsItemSelected(item);
