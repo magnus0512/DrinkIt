@@ -3,8 +3,8 @@ B325
 55.783615
 12.517712
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 2
 1
 KAFFE
@@ -13,8 +13,8 @@ B324
 55.783810
 12.518420
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 10
 1
 KAFFE
@@ -23,8 +23,8 @@ B101D
 55.786980
 12.523383
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 10
 1
 KAFFE
@@ -43,8 +43,8 @@ B208
 55.787518
 12.518523
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 6
 1
 KAFFE
@@ -53,8 +53,8 @@ B210
 55.787839
 12.519306
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 6
 1
 KAFFE
@@ -73,8 +73,8 @@ B358
 55.780348
 12.516526
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 10
 1
 KAFFE
@@ -83,8 +83,8 @@ B421
 55.781905
 12.521373
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 6
 1
 KAFFE
@@ -93,8 +93,8 @@ B450
 55.779578
 12.520640
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 6
 1
 KAFFE
@@ -113,8 +113,8 @@ B116
 55.789052
 12.525534
 Every day
-Altid åben
-Altid åben
+Always open
+Always open
 2
 1
 KAFFE
