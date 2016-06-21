@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         // Set default screen to a BeerFragment (should probably be changed to Coffee)
         FragmentTransaction fragTrans = fragMan.beginTransaction();
         fragTrans.add(R.id.list_upper_container, barFrag);
-        //fragTrans.addToBackStack(null);
         fragTrans.commit();
 
         if (settingsOptions.sortBoolean) {
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
-                    //fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
                     beerButton.setBackgroundColor(orangeColor);
@@ -179,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (coffeeActive) {
-                    //fragMan.popBackStack();
                     coffeeActive = false;
 
                     // Sort list of beer bars
@@ -202,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                     // Install beerFragment
                     FragmentTransaction fragTrans = fragMan.beginTransaction();
                     fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
-                    //fragTrans.addToBackStack(null);
                     fragTrans.commit();
 
                     coffeeButton.setBackgroundColor(orangeColor);
@@ -214,8 +210,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-
-        // Gemmer sorterings indstillinger, ved pause
+        // Saves sortings options, on pause
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("sortSave", settingsOptions.sortBoolean);
@@ -316,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
             // Install beerFragment
             FragmentTransaction fragTrans = fragMan.beginTransaction();
             fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
-            //fragTrans.addToBackStack(null);
             fragTrans.commit();
     }
     @Override

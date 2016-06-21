@@ -7,12 +7,10 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 
 public class Settings extends Activity {
