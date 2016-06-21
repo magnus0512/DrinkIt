@@ -256,10 +256,16 @@ public class MainActivity extends AppCompatActivity {
 
             new DownloadFilesTask().execute();
             fragMan = getSupportFragmentManager();
-            barFrag = new BeerFragment();
 
-            for(int i = 0; i < beerBars.size(); i++) {
-                barFrag.bars.add(beerBars.get(i));
+                barFrag = new BeerFragment();
+
+            if (coffeeActive) {
+                for(int i = 0; i < coffeeBars.size(); i++) {
+                    barFrag.bars.add(coffeeBars.get(i));}
+            } else {
+                for (int i = 0; i < beerBars.size(); i++) {
+                    barFrag.bars.add(beerBars.get(i));
+                }
             }
 
             FragmentTransaction fragTrans = fragMan.beginTransaction();
@@ -268,13 +274,18 @@ public class MainActivity extends AppCompatActivity {
             fragTrans.commit();
 
             if (settingsOptions.sortBoolean) {
-                sortDistance(barFrag.bars);
-            } else {
-                sortPrice(barFrag.bars);
+                if (coffeeActive) {
+                    sortDistance(coffeeBars);
+                } else {
+                    sortDistance(beerBars);
+                }
+            } else  {
+                if (coffeeActive) {
+                    sortPrice(coffeeBars);
+                } else {
+                    sortPrice(beerBars);
+                }
             }
-
-
-
         }
         return super.onOptionsItemSelected(item);
     }
