@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAllPermissions();
-        new DownloadFilesTask().execute();
         setContentView(R.layout.activity_main);
         Log.i(TAG,"entered OnCreate");
 
@@ -100,16 +99,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-/* if(getIntent().getExtras() != null) {
-            Log.i(TAG, "IKKE TOM");
-            settingsOptions.sortBoolean = getIntent().getExtras().getBoolean("SortBoolean", true);
-            settingsOptions.openBoolean = getIntent().getExtras().getBoolean("OpenBoolean", false);
-        }else{
-            Log.i(TAG, "TOM");
-            settingsOptions.sortBoolean = true;
-
-           settingsOptions.openBoolean = false;}
-       */
        // SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         new DownloadFilesTask().execute();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -237,15 +226,6 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "Entered the onSaveInstanceState() method");
-        savedInstanceState.putBoolean("SORT_BOOLEAN", settingsOptions.sortBoolean);
-        savedInstanceState.putBoolean("OPEN_BOOLEAN", settingsOptions.openBoolean);
-        super.onSaveInstanceState(savedInstanceState);
-
-    }
     // Opretter layout for toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -263,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(openSettings, PICK_SETTINGS);
             return true;
         }
+        if (id == R.id.action_refresh) {
 
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -302,13 +284,6 @@ public class MainActivity extends AppCompatActivity {
             fragTrans.replace(R.id.list_upper_container, updatedBarFrag);
             //fragTrans.addToBackStack(null);
             fragTrans.commit();
-
-       /* if (settingsOptions.sortBoolean) {
-               sortDistance( barFrag.bars);
-        } else  {
-                sortPrice( barFrag.bars);
-
-        }*/
     }
     @Override
     protected void onActivityResult(int req, int res, Intent intent) {
