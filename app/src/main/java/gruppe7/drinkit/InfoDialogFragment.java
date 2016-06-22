@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+
 public class InfoDialogFragment extends DialogFragment {
     String openHours = "\n Open hours: ";
     String priser = "\n Prices: ";
@@ -68,6 +69,10 @@ public class InfoDialogFragment extends DialogFragment {
                     " for " + Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation +
                     bar.getLocation());
         }
+        if(bar.getName().equals("Kælderbaren")){
+            builder.setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " +
+                    bar.getClosingTime() + "\n" + " http://www.erkælderbarenåben.dk" + priser + bar.getAmount() + " for " +
+                    Double.valueOf(bar.getPrice()).intValue() + " kr." + lokation + bar.getLocation());        }
         else{
             builder.setMessage(openHours + bar.getOpen() + " " + bar.getOpeningTime() + " - " +
                     bar.getClosingTime() + priser + bar.getAmount() + " for " +

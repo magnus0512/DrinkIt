@@ -9,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.text.method.LinkMovementMethod;
 
 public class ListItemFragment extends Fragment {
     Button barNameButton;
     Button findButton;
     View listItemView;
     Bar bar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
